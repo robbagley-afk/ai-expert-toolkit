@@ -2,6 +2,7 @@
  "title":"ChatGPT Quick Start Guide",
  "subtitle":"A practical guide for higher education: build useful habits, choose tools carefully and verify the result.",
  "reviewed":"2026-10-09",
+ "author":{"name":"Rob Bagley","linkedin":"https://www.linkedin.com/in/robbagley/"},
  "pages":[
   {"title":"Plugins and skills","sections":[
    {"id":"migration","kicker":"The big shift","title":"Prepare your GPT workflows for plugins","intro":"Custom GPT retirement is scheduled for December 11, 2026. Some Enterprise workspaces have an approved February 11, 2027 deferral. Follow your account or campus notice.","cards":[{"title":"What moves","text":"Published GPT instructions become a skill. Reference files and supported connected apps can move with the plugin."},{"title":"What needs attention","text":"Custom actions and sharing settings need review or rebuilding. Existing conversations remain accessible."},{"title":"Your move","text":"When available, open My GPTs > Migrate to plugin. Test familiar requests in the same workspace before switching."}],"notice":"For affected Enterprise workspaces, October 26 is the planned end of new GPT creation. Dates and access depend on workspace notices."},
