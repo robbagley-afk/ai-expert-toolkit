@@ -7,6 +7,7 @@ from reportlab.platypus import SimpleDocTemplate,Paragraph,Spacer,Table,TableSty
 from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
 from reportlab.lib import colors
 from PIL import Image,ImageDraw
+from pypdf import PdfReader
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 MAP='https://robbagley-afk.github.io/model-value-map/'
 def validate(d):
@@ -55,13 +56,14 @@ def pdf(path,d,rev):
    if s.get('notice'):story.append(p(s['notice']))
   if i==2:
    story.append(p('Try these next','SectionSmall'))
-   checks=[p('□ '+c['text'],'CardSmall') for c in d['checklist']]
+   checks=[p('[ ] '+c['text'],'CardSmall') for c in d['checklist']]
    t=Table([[checks[j],checks[j+1]] for j in range(0,len(checks),2)],colWidths=[262,262]);t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP')]));story.append(t)
    links=' · '.join(f'<link href="{esc(s["url"])}">{esc(s["title"])}</link>' for s in d['sources'])
    story.append(Paragraph('<b>Sources:</b> '+links,styles['CardSmall']))
  def decorate(c,doc):
   c.setFillColor(colors.HexColor('#172441'));c.roundRect(44,723,524,44,8,fill=1,stroke=0);c.setFillColor(colors.white);c.setFont('Helvetica-Bold',17);c.drawString(56,747,d['title']);c.setFont('Helvetica',9);c.drawString(56,732,d['pages'][min(doc.page-1,2)]['title']);c.setFillColor(colors.HexColor('#516079'));c.setFont('Helvetica',7);c.drawString(44,28,f'Rob Bagley | Reviewed {d["reviewed"]} | Revision {rev[:12]}');c.drawRightString(568,28,f'{doc.page} / 3')
  SimpleDocTemplate(str(path),pagesize=(612,792),leftMargin=44,rightMargin=44,topMargin=81,bottomMargin=45,title=d['title'],author='Rob Bagley').build(story,onFirstPage=decorate,onLaterPages=decorate,canvasmaker=lambda *a,**kw: Canvas(*a,**dict(kw,invariant=1)))
+ if len(PdfReader(path).pages)!=3:raise ValueError('Guide exceeds three-page layout. Shorten or reflow content before publishing.')
 def generate(out):
  d=json.loads((ROOT/'content/guide.json').read_text());validate(d);rev=hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode()).hexdigest()
  out.mkdir(parents=True,exist_ok=True);(out/'assets').mkdir();(out/'chatgpt-quick-start-guide').mkdir()
