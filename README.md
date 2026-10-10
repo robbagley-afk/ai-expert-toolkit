@@ -1,4 +1,4 @@
-# Rob’s Become an AI Expert Toolkit
+# Rob’s Everyday AI Guide
 
 A static GitHub Pages toolkit. Resource 1 is the ChatGPT Quick Start Guide, available as responsive HTML and a three-page PDF. Resource 2 opens the canonical Model Value Map so its data stays current at its own source.
 
