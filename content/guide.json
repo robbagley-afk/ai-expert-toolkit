@@ -1,43 +1,313 @@
 {
- "title":"ChatGPT Quick Start Guide",
- "subtitle":"A practical guide for higher education: build useful habits, choose tools carefully and verify the result.",
- "reviewed":"2026-10-09",
- "author":{"name":"Rob Bagley","linkedin":"https://www.linkedin.com/in/robbagley/"},
- "pages":[
-  {"title":"Plugins and skills","sections":[
-   {"id":"migration","kicker":"The big shift","title":"Prepare your GPT workflows for plugins","intro":"Custom GPT retirement is scheduled for December 11, 2026. Some Enterprise workspaces have an approved February 11, 2027 deferral. Follow your account or campus notice.","cards":[{"title":"What moves","text":"Published GPT instructions become a skill. Reference files and supported connected apps can move with the plugin."},{"title":"What needs attention","text":"Custom actions and sharing settings need review or rebuilding. Existing conversations remain accessible."},{"title":"Your move","text":"When available, open My GPTs > Migrate to plugin. Test familiar requests in the same workspace before switching."}],"notice":"For affected Enterprise workspaces, October 26 is the planned end of new GPT creation. Dates and access depend on workspace notices."},
-   {"id":"difference","kicker":"Know the difference","title":"A skill handles a task. A plugin bundles a workflow.","table":{"headers":["","Custom GPT","Skill","Plugin"],"rows":[["Purpose","A separate chatbot","Reusable task instructions","Skills, files and connected capabilities"],["Tools","Apps or custom actions","Uses tools available to the task","May include connected apps"],["Sharing","Existing GPT permissions","Account and workspace controls","Share intentionally; apps authorize separately"]]}},
-   {"id":"build","kicker":"Make, build or borrow","title":"Build a skill the third time you repeat yourself","cards":[{"title":"Make a skill","text":"You repeat a focused task, such as a weekly update or a document review."},{"title":"Make a plugin","text":"A workflow needs connected services or a bundle your team can reuse."},{"title":"Install one","text":"Search the Plugins directory before building a tool that already exists."}],"steps":["Name one repeated task and its required result.","Use Skill Creator where available. Describe the goal, steps and output format.","Test with de-identified examples and refine the instructions.","Share where your workspace permits. Name a maintainer and provide example prompts."],"notice":"Start small: policy-template checks, meeting notes to actions, clearer help articles or standard orientation slides."}
-  ]},
-  {"title":"Models, effort and scheduled tasks","sections":[
-   {"id":"models","kicker":"Pick a model","title":"Match the model to the work","cards":[{"title":"Narrow and repeated","text":"Try GPT-6 Luna at Low for sorting, extraction or a task with a clear right answer."},{"title":"Judgment across sources","text":"Use GPT-6.1 Sol at Low or Medium for reports, reconciling documents and multistep work. Use the lowest effort that passes your check."},{"title":"Consequential decisions","text":"Increase effort when needed and add human review. Keep scope explicit. Consult your campus policy and the current Model Value Map."}],"notice":"Model availability and controls vary by account, surface and campus settings. October Chat releases differ from the versions used in Work and Codex."},
-   {"id":"effort","kicker":"Set the effort","title":"Start low. Raise effort after a failed check.","cards":[{"title":"Low / Light","text":"Quick, well-scoped tasks."},{"title":"Medium","text":"More reconciliation or judgment."},{"title":"High and above","text":"Harder problems when a lower setting is insufficient."}],"bullets":["Menu labels vary. The API lists low, medium, high, xhigh and max; options depend on the model.","Higher effort usually takes more time and usage. State the scope and ask for a verification step.","API output-token reference prices: GPT-6.1 Sol $10 and GPT-6 Luna $0.50 per one million output tokens. Input and other usage also cost money. This is not total task cost."],"notice":"For current task-specific recommendations, open the Model Value Map and its public guidance. Stay within your account's allowed models."},
-   {"id":"schedule","kicker":"Scheduled tasks","title":"Let ChatGPT show up on a schedule","steps":["Open Scheduled when available, or describe the task and when it should run.","Choose a one-time or recurring schedule. Supported connected apps may offer event triggers.","Review the account, sources, instructions and permissions before relying on a run.","Check results and paused tasks in Scheduled. Codex automations are managed separately."],"cards":[{"title":"Monday","text":"Open items and deadlines."},{"title":"Wednesday","text":"Find stale documents in an approved shared folder."},{"title":"Friday","text":"Draft a weekly update for review."}],"notice":"Computer-bound tasks need that device available. Cloud tasks have different requirements. If a task's model retires, update it before the next run."}
-  ]},
-  {"title":"Tools, sharing and useful habits","sections":[
-   {"id":"tools","kicker":"Find useful tools","title":"Start with the work you already do","cards":[{"title":"Documents and email","text":"Google Drive, Gmail or Outlook: find an approved document, summarize a thread or draft a reply."},{"title":"Research and study","text":"Consensus or Quizlet, where available: explore research or build practice flashcards. Check sources and accuracy."},{"title":"Design","text":"Canva, where available: turn an outline into an event flyer. Review the result before sharing."}],"notice":"Also check Calendar, SharePoint, Slack, Teams and Notion. Availability varies. Use approved campus services and de-identified examples; follow your student-data policy."},
-   {"id":"install","kicker":"Install and share","title":"Test privately. Share on purpose.","steps":["Open Plugins or the app directory shown in your account. Review the tool and its capabilities.","Select Install plugin when shown, then connect required apps using the intended account.","Start a chat and mention the installed tool where supported.","For your own plugin, test first, add example prompts and name a maintainer. Review sharing permissions; workspace publication is a separate permission."],"notice":"Installing a plugin does not grant access to files or bypass your provider's permissions. Recipients may need to install it and connect their own apps."},
-   {"id":"habits","kicker":"Habits from a working setup","title":"Eight habits that make AI more useful","bullets":["State the setup: name the task, tools and desired result.","Use phases when helpful; avoid a model switch that costs more than finishing.","Invite one challenge if your request is unclear.","Keep a project handoff: done, next and unresolved.","Save recurring preferences through the tools your account supports.","Verify saves and facts. Search before creating; read before editing.","Check connected tools before a browser. Respect account and authentication boundaries.","When a tool is missing, ask the assistant to inspect available capabilities." ]},
-   {"id":"modes","kicker":"Chat, Work or Codex?","title":"Choose the surface for the result","cards":[{"title":"Chat","text":"Questions, quick drafts and explanations."},{"title":"Work","text":"Multistep jobs that produce a finished artifact."},{"title":"Codex","text":"Code, tests and repositories."}],"notice":"Quick win: connect an approved document service, find five recent documents and ask for a one-line summary of each. Start with one habit, then add the next."}
-  ]}
- ],
- "checklist":[
-  {"id":"controls","text":"Find the model and effort controls"},
-  {"id":"work","text":"Run one multistep task in Work"},
-  {"id":"plugin","text":"Mention an installed plugin in a chat"},
-  {"id":"skill","text":"Create one focused skill with Skill Creator"},
-  {"id":"schedule","text":"Set one scheduled task and check its result"},
-  {"id":"record","text":"Try Record & Replay if available in your account"},
-  {"id":"policy","text":"Ask your campus admin what tools and data are allowed"},
-  {"id":"migrate","text":"Review your custom GPT migration notice and plan a tested replacement"}
- ],
- "sources":[
-  {"title":"GPT retirement and migration","url":"https://help.openai.com/en/articles/20001519-custom-gpt-retirement-and-migration-faq"},
-  {"title":"Plugins and connected apps","url":"https://help.openai.com/en/articles/20001256-plugins-in-chatgpt"},
-  {"title":"Skills in ChatGPT","url":"https://help.openai.com/en/articles/20001066-skills-in-chatgpt"},
-  {"title":"Scheduled tasks","url":"https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt"},
-  {"title":"Model specifications and API prices","url":"https://developers.openai.com/api/docs/models"},
-  {"title":"October Chat model release","url":"https://deploymentsafety.openai.com/gpt-6-october/model-data-and-training"},
-  {"title":"Current model guidance","url":"https://robbagley-afk.github.io/model-value-map/guidance.md"}
- ]
+  "title": "ChatGPT Quick Start Guide",
+  "subtitle": "A practical guide for higher education: build useful habits, choose tools carefully and verify the result.",
+  "reviewed": "2026-10-09",
+  "author": {
+    "name": "Rob Bagley",
+    "linkedin": "https://www.linkedin.com/in/robbagley/"
+  },
+  "pages": [
+    {
+      "title": "Plugins and skills",
+      "sections": [
+        {
+          "id": "migration",
+          "kicker": "The big shift",
+          "title": "Prepare your GPT workflows for plugins",
+          "intro": "Custom GPT retirement is scheduled for December 11, 2026. Some Enterprise workspaces have an approved February 11, 2027 deferral. Follow your account or campus notice.",
+          "cards": [
+            {
+              "title": "What moves",
+              "text": "Published GPT instructions become a skill. Reference files and supported connected apps can move with the plugin."
+            },
+            {
+              "title": "What needs attention",
+              "text": "Custom actions and sharing settings need review or rebuilding. Existing conversations remain accessible."
+            },
+            {
+              "title": "Your move",
+              "text": "When available, open My GPTs > Migrate to plugin. Test familiar requests in the same workspace before switching."
+            }
+          ],
+          "notice": "For affected Enterprise workspaces, October 26 is the planned end of new GPT creation. Dates and access depend on workspace notices."
+        },
+        {
+          "id": "difference",
+          "kicker": "Know the difference",
+          "title": "A skill handles a task. A plugin bundles a workflow.",
+          "table": {
+            "headers": [
+              "",
+              "Custom GPT",
+              "Skill",
+              "Plugin"
+            ],
+            "rows": [
+              [
+                "Purpose",
+                "A separate chatbot",
+                "Reusable task instructions",
+                "Skills, files and connected capabilities"
+              ],
+              [
+                "Tools",
+                "Apps or custom actions",
+                "Uses tools available to the task",
+                "May include connected apps"
+              ],
+              [
+                "Sharing",
+                "Existing GPT permissions",
+                "Account and workspace controls",
+                "Share intentionally; apps authorize separately"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "build",
+          "kicker": "Make, build or borrow",
+          "title": "Build a skill the third time you repeat yourself",
+          "cards": [
+            {
+              "title": "Make a skill",
+              "text": "You repeat a focused task, such as a weekly update or a document review."
+            },
+            {
+              "title": "Make a plugin",
+              "text": "A workflow needs connected services or a bundle your team can reuse."
+            },
+            {
+              "title": "Install one",
+              "text": "Search the Plugins directory before building a tool that already exists."
+            }
+          ],
+          "steps": [
+            "Name one repeated task and its required result.",
+            "Use Skill Creator where available. Describe the goal, steps and output format.",
+            "Test with de-identified examples and refine the instructions.",
+            "Share where your workspace permits. Name a maintainer and provide example prompts."
+          ],
+          "notice": "Start small: policy-template checks, meeting notes to actions, clearer help articles or standard orientation slides."
+        }
+      ]
+    },
+    {
+      "title": "Models, effort and scheduled tasks",
+      "sections": [
+        {
+          "id": "models",
+          "kicker": "Pick a model",
+          "title": "Match the model to the work",
+          "cards": [
+            {
+              "title": "Narrow and repeated",
+              "text": "Try GPT-6 Luna at Low for sorting, extraction or a task with a clear right answer."
+            },
+            {
+              "title": "Judgment across sources",
+              "text": "Use GPT-6.1 Sol at Low or Medium for reports, reconciling documents and multistep work. Use the lowest effort that passes your check."
+            },
+            {
+              "title": "Consequential decisions",
+              "text": "Increase effort when needed and add human review. Keep scope explicit. Consult your campus policy and the current Model Value Map."
+            }
+          ],
+          "notice": "Model availability and controls vary by account, surface and campus settings. October Chat releases differ from the versions used in Work and Codex."
+        },
+        {
+          "id": "effort",
+          "kicker": "Set the effort",
+          "title": "Start low. Raise effort after a failed check.",
+          "cards": [
+            {
+              "title": "Low / Light",
+              "text": "Quick, well-scoped tasks."
+            },
+            {
+              "title": "Medium",
+              "text": "More reconciliation or judgment."
+            },
+            {
+              "title": "High and above",
+              "text": "Harder problems when a lower setting is insufficient."
+            }
+          ],
+          "bullets": [
+            "Menu labels vary. The API lists low, medium, high, xhigh and max; options depend on the model.",
+            "Higher effort usually takes more time and usage. State the scope and ask for a verification step.",
+            "API output-token reference prices: GPT-6.1 Sol $10 and GPT-6 Luna $0.50 per one million output tokens. Input and other usage also cost money. This is not total task cost."
+          ],
+          "notice": "For current task-specific recommendations, open the Model Value Map and its public guidance. Stay within your account's allowed models."
+        },
+        {
+          "id": "schedule",
+          "kicker": "Scheduled tasks",
+          "title": "Let ChatGPT show up on a schedule",
+          "steps": [
+            "Open Scheduled when available, or describe the task and when it should run.",
+            "Choose a one-time or recurring schedule. Supported connected apps may offer event triggers.",
+            "Review the account, sources, instructions and permissions before relying on a run.",
+            "Check results and paused tasks in Scheduled. Codex automations are managed separately."
+          ],
+          "cards": [
+            {
+              "title": "Monday",
+              "text": "Open items and deadlines."
+            },
+            {
+              "title": "Wednesday",
+              "text": "Find stale documents in an approved shared folder."
+            },
+            {
+              "title": "Friday",
+              "text": "Draft a weekly update for review."
+            }
+          ],
+          "notice": "Computer-bound tasks need that device available. Cloud tasks have different requirements. If a task's model retires, update it before the next run."
+        }
+      ]
+    },
+    {
+      "title": "Tools, sharing and useful habits",
+      "sections": [
+        {
+          "id": "tools",
+          "kicker": "Find useful tools",
+          "title": "Start with the work you already do",
+          "cards": [
+            {
+              "title": "Documents and email",
+              "text": "Google Drive, Gmail or Outlook: find an approved document, summarize a thread or draft a reply."
+            },
+            {
+              "title": "Research and study",
+              "text": "Consensus or Quizlet, where available: explore research or build practice flashcards. Check sources and accuracy."
+            },
+            {
+              "title": "Design",
+              "text": "Canva, where available: turn an outline into an event flyer. Review the result before sharing."
+            }
+          ],
+          "notice": "Also check Calendar, SharePoint, Slack, Teams and Notion. Availability varies. Use approved campus services and de-identified examples; follow your student-data policy."
+        },
+        {
+          "id": "install",
+          "kicker": "Install and share",
+          "title": "Test privately. Share on purpose.",
+          "steps": [
+            "Open Plugins or the app directory shown in your account. Review the tool and its capabilities.",
+            "Select Install plugin when shown, then connect required apps using the intended account.",
+            "Start a chat and mention the installed tool where supported.",
+            "For your own plugin, test first, add example prompts and name a maintainer. Review sharing permissions; workspace publication is a separate permission."
+          ],
+          "notice": "Installing a plugin does not grant access to files or bypass your provider's permissions. Recipients may need to install it and connect their own apps."
+        },
+        {
+          "id": "habits",
+          "kicker": "Habits from a working setup",
+          "title": "Eight habits that make AI more useful",
+          "bullets": [
+            "State the setup: name the task, tools and desired result.",
+            "Use phases when helpful; avoid a model switch that costs more than finishing.",
+            "Invite one challenge if your request is unclear.",
+            "Keep a project handoff: done, next and unresolved.",
+            "Save recurring preferences through the tools your account supports.",
+            "Verify saves and facts. Search before creating; read before editing.",
+            "Check connected tools before a browser. Respect account and authentication boundaries.",
+            "When a tool is missing, ask the assistant to inspect available capabilities."
+          ]
+        },
+        {
+          "id": "modes",
+          "kicker": "Chat, Work or Codex?",
+          "title": "Choose the surface for the result",
+          "cards": [
+            {
+              "title": "Chat",
+              "text": "Questions, quick drafts and explanations."
+            },
+            {
+              "title": "Work",
+              "text": "Multistep jobs that produce a finished artifact."
+            },
+            {
+              "title": "Codex",
+              "text": "Code, tests and repositories."
+            }
+          ],
+          "notice": "Quick win: connect an approved document service, find five recent documents and ask for a one-line summary of each. Start with one habit, then add the next."
+        }
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "controls",
+      "text": "Find the model and effort controls"
+    },
+    {
+      "id": "work",
+      "text": "Run one multistep task in Work"
+    },
+    {
+      "id": "plugin",
+      "text": "Mention an installed plugin in a chat"
+    },
+    {
+      "id": "skill",
+      "text": "Create one focused skill with Skill Creator"
+    },
+    {
+      "id": "schedule",
+      "text": "Set one scheduled task and check its result"
+    },
+    {
+      "id": "record",
+      "text": "Try Record & Replay if available in your account"
+    },
+    {
+      "id": "policy",
+      "text": "Ask your campus admin what tools and data are allowed"
+    },
+    {
+      "id": "migrate",
+      "text": "Review your custom GPT migration notice and plan a tested replacement"
+    }
+  ],
+  "sources": [
+    {
+      "title": "GPT retirement and migration",
+      "url": "https://help.openai.com/en/articles/20001519-custom-gpt-retirement-and-migration-faq"
+    },
+    {
+      "title": "Plugins and connected apps",
+      "url": "https://help.openai.com/en/articles/20001256-plugins-in-chatgpt"
+    },
+    {
+      "title": "Skills in ChatGPT",
+      "url": "https://help.openai.com/en/articles/20001066-skills-in-chatgpt"
+    },
+    {
+      "title": "Scheduled tasks",
+      "url": "https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt"
+    },
+    {
+      "title": "Model specifications and API prices",
+      "url": "https://developers.openai.com/api/docs/models"
+    },
+    {
+      "title": "October Chat model release",
+      "url": "https://deploymentsafety.openai.com/gpt-6-october/model-data-and-training"
+    },
+    {
+      "title": "Current model guidance",
+      "url": "https://robbagley-afk.github.io/model-value-map/guidance.md"
+    }
+  ],
+  "portable_team": {
+    "title": "Your Portable AI Team",
+    "url": "https://your-portable-ai-team.airy-emu-9499.chatgpt.site/",
+    "description": "Build the team you intend to use for work with copyable setup prompts, specialist starters and saved task state. Draft procedures and planning outlines are labeled."
+  }
 }

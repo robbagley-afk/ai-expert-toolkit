@@ -10,6 +10,7 @@ from PIL import Image,ImageDraw
 from pypdf import PdfReader
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 MAP='https://robbagley-afk.github.io/model-value-map/'
+TEAM='https://your-portable-ai-team.airy-emu-9499.chatgpt.site/'
 def validate(d):
  datetime.date.fromisoformat(d['reviewed'])
  assert len(d['pages'])==3
@@ -33,7 +34,7 @@ def section(s):
  return out+'</section>'
 def shell(title,body,d,rev,child=False):
  prefix='../' if child else ''
- return f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)}</title><meta name="description" content="{esc(d["subtitle"])}"><link rel="icon" href="{prefix}favicon.ico"><link rel="icon" type="image/svg+xml" href="{prefix}favicon.svg"><link rel="stylesheet" href="{prefix}assets/site.css">'+ ('<script defer src="../assets/guide.js"></script>' if child else '')+f'</head><body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main"><a class="brand" href="{prefix}index.html">Rob’s Everyday AI Guide</a><a href="{prefix}chatgpt-quick-start-guide/">ChatGPT Guide</a><a href="{MAP}">Model Value Map</a></nav></header><main id="main">{body}</main><footer>Created by {esc(d["author"]["name"])}. <a href="{esc(d["author"]["linkedin"])}">LinkedIn profile</a>. Reviewed {d["reviewed"]}. Revision {rev[:12]}.<br>Verify important results and follow your campus policies.</footer></body></html>'
+ return f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)}</title><meta name="description" content="{esc(d["subtitle"])}"><link rel="icon" href="{prefix}favicon.ico"><link rel="icon" type="image/svg+xml" href="{prefix}favicon.svg"><link rel="stylesheet" href="{prefix}assets/site.css">'+ ('<script defer src="../assets/guide.js"></script>' if child else '')+f'</head><body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main"><a class="brand" href="{prefix}index.html">Rob’s Everyday AI Guide</a><a href="{prefix}chatgpt-quick-start-guide/">ChatGPT Guide</a><a href="{MAP}">Model Value Map</a><a href="{TEAM}">Portable AI Team</a></nav></header><main id="main">{body}</main><footer>Created by {esc(d["author"]["name"])}. <a href="{esc(d["author"]["linkedin"])}">LinkedIn profile</a>. Reviewed {d["reviewed"]}. Revision {rev[:12]}.<br>Verify important results and follow your campus policies.</footer></body></html>'
 def pdf(path,d,rev):
  styles=getSampleStyleSheet()
  styles.add(ParagraphStyle(name='BodySmall',fontName='Helvetica',fontSize=8.8,leading=11.4,spaceAfter=4,textColor=colors.HexColor('#172441')))
@@ -68,6 +69,9 @@ def generate(out):
  d=json.loads((ROOT/'content/guide.json').read_text());validate(d);rev=hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode()).hexdigest()
  out.mkdir(parents=True,exist_ok=True);(out/'assets').mkdir();(out/'chatgpt-quick-start-guide').mkdir()
  home='<div class="hero"><div class="eyebrow">Practical tools. Useful habits.</div><h1>Rob’s Everyday AI Guide</h1><p>Start with one useful task. Build a repeatable workflow, check the result and choose the right model for the job.</p></div><div class="resources"><article class="resource"><span class="number">Resource 1</span><h2>ChatGPT Quick Start Guide</h2><p>A practical guide to plugins, skills, models and scheduled tasks. Read online or download the printable three-page guide.</p><a class="button" href="chatgpt-quick-start-guide/">Open ChatGPT Guide</a><a class="secondary" href="ChatGPT-Quick-Start-Guide.pdf">Download PDF</a></article><article class="resource"><span class="number">Resource 2</span><h2>Model Value Map</h2><p>Compare model capability and cost using the current public map and its maintained guidance.</p><a class="button" href="'+MAP+'">Open Model Value Map</a><a class="secondary" href="'+MAP+'team/">Open team guidance</a></article></div>'
+ team=d['portable_team']
+ card='<article class="resource"><span class="number">Resource 3</span><h2>'+esc(team['title'])+'</h2><p>'+esc(team['description'])+'</p><a class="button" href="'+esc(team['url'])+'">Open Portable AI Team</a><a class="secondary" href="'+esc(team['url'])+'roles-and-skills.html#add-specialists">Explore specialist starters</a></article>'
+ home=home[:-6]+card+'</div>'
  (out/'index.html').write_text(shell('Rob’s Everyday AI Guide',home,d,rev))
  body=f'<div class="hero"><div class="eyebrow">Resource 1</div><h1>{esc(d["title"])}</h1><p>{esc(d["subtitle"])}</p><p class="meta">Reviewed {d["reviewed"]} · Revision {rev[:12]}</p><a class="button no-print" href="../ChatGPT-Quick-Start-Guide.pdf">Download printable PDF</a></div>'
  for page in d['pages']:body+=f'<article class="chapter"><h2>{esc(page["title"])}</h2>'+''.join(section(s) for s in page['sections'])+'</article>'

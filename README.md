@@ -1,10 +1,10 @@
 # Rob’s Everyday AI Guide
 
-A static GitHub Pages toolkit. Resource 1 is the ChatGPT Quick Start Guide, available as responsive HTML and a three-page PDF. Resource 2 opens the canonical Model Value Map so its data stays current at its own source.
+A static GitHub Pages toolkit. Resource 1 is the ChatGPT Quick Start Guide, available as responsive HTML and a three-page PDF. Resource 2 opens the canonical Model Value Map so its data stays current at its own source. Resource 3 links to [Your Portable AI Team](https://your-portable-ai-team.airy-emu-9499.chatgpt.site/), with prompt-led setup, specialist starters and saved task state. The team guide retains its draft and planning labels.
 
 ## Maintain
 
-Use Python 3.11 or later. Install requirements with `python3 -m pip install -r requirements.txt`. Review official sources before changing claims. Edit `content/guide.json`, update `reviewed` after a factual review, then run:
+Use Python 3.11 or later. Install requirements with `python3 -m pip install -r requirements.txt`. Review official sources before changing claims. Edit `content/guide.json` (including the Portable AI Team resource entry), update `reviewed` after a factual review, then run:
 
 ```
 python3 -m unittest discover -s tests
