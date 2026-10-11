@@ -4,11 +4,15 @@
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "ChatGPT-Quick-Start-Guide.pdf": "798717bc8f0ccc2bdbbf18fb1e718e1b5fae0ae2a0c750df904ff7d6bac43800",
+    "assets/fonts/OFL.txt": "18aabf190848725e2576eefb5c29ba06aac1029d02132252a7f312eac2e50cf3",
+    "assets/fonts/source-serif-4-italic.woff2": "663e7ef3037a56dce81dfc33f68c1e6445995ffd8887991b3c0b68a7689c9da5",
+    "assets/fonts/source-serif-4.woff2": "c1df4596be5029233ed2afbb8b2f6ea20784b3fb1aa5d6b5c6519ccd85eb3dfb",
     "assets/guide.js": "06dbaa7c2b04dbe10e0fed56fec3395cda2a4fbdf964473f59b4976e03945290",
+    "assets/home.css": "1c58941ab95d6620727c63be7f5eed8c126b5a3903e2e1f19b2cd82e441b8dbe",
     "assets/site.css": "7c0344f6d761d81ae807e81aca914337ad06b600d9dff542c3885d61c46d6875",
     "chatgpt-quick-start-guide/index.html": "e9671d0e6305d8bcb315322ba265d405978015e9ed135a4d80d5b1547d8fb6aa",
     "favicon.ico": "a5ddcb57e386d9c2d9a208cf348efddf0eac052c2eac0ae0ca2de2a67c267c68",
     "favicon.svg": "19c55402fb933ad06e91d50f46794f420c389d342611a63a3f8b0efb2fed8a8a",
-    "index.html": "66c6b9940d44f53774401f73ae3cba1c9604b31659bfd4090e4ec55de031812a"
+    "index.html": "6e7ccf744eb9850169c602b50e12204a9d87d29ab6fe05975459b19af3e7460e"
   }
 }

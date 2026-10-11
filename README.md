@@ -14,6 +14,8 @@ python3 scripts/build.py --check
 
 Preview `docs/` with a local static server. Verify mobile and desktop layouts, checkbox persistence, and all three PDF pages. Publish by committing the source and generated `docs/` to `main`. GitHub Pages serves `main:/docs`. After deployment, compare every live file against `docs/release.json`. The manifest records the reviewed date, content revision and artifact hashes.
 
+The home page uses the Broadsheet style in `templates/home.css` with self-hosted Source Serif 4 (SIL Open Font License, `templates/fonts/OFL.txt`), so it loads no third-party fonts. The guide keeps `templates/site.css`.
+
 The guide stores only checklist booleans in the visitor’s browser. It makes no network requests and works when storage is unavailable. No analytics or backend is included. The original supplied PDF is preserved outside this public repository. A local maintenance routine reviews sources weekly. Future runs require its host to be available.
 
 Optional browser checks: with Playwright installed and a local server at port 8767, run `node tests/browser.mjs`. Set `TOOLKIT_BASE` to test another host. Browser screenshots are verification outputs and are ignored by Git.
