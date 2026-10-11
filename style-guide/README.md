@@ -90,6 +90,10 @@ Archivo only, weights 400 (body), 600 (labels), 800 (headings and buttons).
 | `.rp-check` | Checklist row with a real checkbox. |
 | `.rp-tag` | Outlined status label, such as "Outline only". |
 
+## Adopting it in an existing site
+
+The sheet's base layer zeroes margins on `p` and `h1`–`h4` for `rp-` pages. A site whose prose relies on browser-default spacing adds `p, h1, h2, h3, h4 { margin: revert; }` right after linking `rob-personal.css`, before its own CSS, then maps its own tokens onto the `--rp-` variables.
+
 ## Accessibility
 
 - Body text 4.5:1 or better everywhere; every pairing above is measured.

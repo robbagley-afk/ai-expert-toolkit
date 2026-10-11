@@ -40,7 +40,7 @@ def nav(d,prefix,current):
  for href,label,key in links:
   h=href if href.startswith('https') else prefix+href
   cls=' class="rp-brand"' if key=='home' else ''
-  cur=' aria-current="page"' if key==current and key!='home' else ''
+  cur=' aria-current="page"' if key==current else ''
   out+=f'<a{cls} href="{h}"{cur}>{esc(label)}</a>'
  return out+'</nav>'
 def footer(d,rev):
