@@ -1,4 +1,4 @@
-# Rob’s Everyday AI Guide
+# AI Quick Start
 
 A static GitHub Pages toolkit. Resource 1 is the ChatGPT Quick Start Guide, available as responsive HTML and a three-page PDF. Resource 2 opens the canonical Model Value Map so its data stays current at its own source. Resource 3 links to [Your Portable AI Team](https://your-portable-ai-team.airy-emu-9499.chatgpt.site/), with prompt-led setup, specialist starters and saved task state. The team guide retains its draft and planning labels.
 

@@ -1,14 +1,14 @@
 {
   "reviewed": "2026-10-09",
-  "revision": "3582f3088017ca5ae6776dc6e9bb11a9965518fc4346e112fc5666b739bd905a",
+  "revision": "b820a01ed01d46b5548ab87e00aba809c45e7c9054c2f6456d41b21cabf71295",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "ChatGPT-Quick-Start-Guide.pdf": "7435ad5dbb83c04d4b792c5349dafd0d256181efdbc974b56b0e88752f7414cf",
+    "ChatGPT-Quick-Start-Guide.pdf": "798717bc8f0ccc2bdbbf18fb1e718e1b5fae0ae2a0c750df904ff7d6bac43800",
     "assets/guide.js": "06dbaa7c2b04dbe10e0fed56fec3395cda2a4fbdf964473f59b4976e03945290",
     "assets/site.css": "7c0344f6d761d81ae807e81aca914337ad06b600d9dff542c3885d61c46d6875",
-    "chatgpt-quick-start-guide/index.html": "fb2ee6c63b5679e663188ecb6776f42f7bc4bd12d6dd7907c2449be832964218",
+    "chatgpt-quick-start-guide/index.html": "e9671d0e6305d8bcb315322ba265d405978015e9ed135a4d80d5b1547d8fb6aa",
     "favicon.ico": "a5ddcb57e386d9c2d9a208cf348efddf0eac052c2eac0ae0ca2de2a67c267c68",
     "favicon.svg": "19c55402fb933ad06e91d50f46794f420c389d342611a63a3f8b0efb2fed8a8a",
-    "index.html": "5a79b6cb3ee5f7e330752bd26feeb5164ef755a798fb72a6ed50b0954c3b01cb"
+    "index.html": "66c6b9940d44f53774401f73ae3cba1c9604b31659bfd4090e4ec55de031812a"
   }
 }
