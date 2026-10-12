@@ -51,7 +51,7 @@ def shell(title,body,d,rev,child=False):
 def home_page(d,rev):
  team=d['portable_team']
  rows=[('Learn plugins, skills, models and scheduled tasks','ChatGPT Quick Start Guide','A practical guide to plugins, skills, models and scheduled tasks. Read online or download the printable three-page guide.','Web guide · 3-page PDF','Open ChatGPT Guide','chatgpt-quick-start-guide/','Download PDF','ChatGPT-Quick-Start-Guide.pdf'),
-  ('Pick the right model for a task','Model Value Map','Compare model capability and cost using the current public map and its maintained guidance.','Interactive map · team guidance','Open Model Value Map',MAP,'Open team guidance',MAP+'team/'),
+  ('Pick the right model for a task','Model Value Map','Compare model capability and cost using the current public map and its maintained guidance.','Interactive map · ChatGPT Edu guidance','Open Model Value Map',MAP,'Open ChatGPT Edu guidance',MAP+'chatgpt-edu/'),
   ('Set up a reusable team of AI specialists',team['title'],team['description'],'Setup prompts · specialist starters','Open Portable AI Team',team['url'],'Explore specialist starters',team['url']+'roles-and-skills.html#add-specialists')]
  cells=''.join(f'<article class="resource"><div class="rp-num">{n:02d}</div><div class="rp-label">I want to</div><h2>{esc(need)}</h2><div class="what"><div class="name">{esc(name)}</div><p>{esc(value)}</p><div class="rp-label">{esc(fmt)}</div></div><a class="rp-btn rp-btn-primary rp-btn-block" href="{esc(href)}">{esc(cta)}<span aria-hidden="true">→</span></a><a class="rp-link" href="{esc(href2)}">{esc(cta2)}</a></article>' for n,(need,name,value,fmt,cta,href,cta2,href2) in enumerate(rows,1))
  title=esc(d['site_title']).rsplit(' ',1)
