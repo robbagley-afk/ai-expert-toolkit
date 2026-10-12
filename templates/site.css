@@ -50,3 +50,7 @@ html{scroll-behavior:smooth}
   .cards>*,.rp-note{break-inside:avoid}
   .rp-band-inner{padding:12px 0}
 }
+
+/* Hero byline: visible but secondary to the lede */
+.rp-byline{margin-top:14px;font-size:14px;letter-spacing:.04em;color:var(--rp-accent-text)}
+.rp-byline strong{font-weight:var(--rp-w-label)}
