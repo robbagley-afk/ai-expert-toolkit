@@ -12,7 +12,7 @@ html{scroll-behavior:smooth}
 .resource .rp-num{font-size:44px;line-height:1;letter-spacing:-.02em}
 .resource h2{font-size:26px;line-height:1.12;letter-spacing:-.015em;min-height:58px}
 .resource .what{flex:1;display:flex;flex-direction:column;gap:6px;border-top:2px solid var(--rp-rule);padding-top:var(--rp-s3)}
-.resource .name{font-size:17px;font-weight:var(--rp-w-label)}
+.resource .name{font-size:22px;line-height:1.25;font-weight:var(--rp-w-head);color:var(--rp-accent-text)}
 .resource .what p{font-size:16px;line-height:1.55}
 
 /* guide */
