@@ -225,7 +225,7 @@
           "id": "migration",
           "kicker": "If you built custom GPTs",
           "title": "Move your GPTs to plugins before they retire",
-          "intro": "Custom GPT retirement is scheduled for December 11, 2026. Some Enterprise workspaces have an approved February 11, 2027 deferral. Follow your account or campus notice.",
+          "intro": "Custom GPT retirement is scheduled for December 11, 2026. Follow your account or campus notice.",
           "cards": [
             {
               "title": "What moves",
