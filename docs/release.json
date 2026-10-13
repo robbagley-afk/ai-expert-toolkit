@@ -1,18 +1,18 @@
 {
-  "reviewed": "2026-10-09",
-  "revision": "b820a01ed01d46b5548ab87e00aba809c45e7c9054c2f6456d41b21cabf71295",
+  "reviewed": "2026-10-13",
+  "revision": "19b8260c1e82d12bdcab69f908dbceacda43f0215574681c8e143dab61d10b84",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "ChatGPT-Quick-Start-Guide.pdf": "b5e356cfd9b1e962a823df6abdd6c3c7699c8ff404c463604b1b26ce3ef27d37",
+    "ChatGPT-Quick-Start-Guide.pdf": "beab2657511ee1461b7e2e03763ac1dd681a0e347dad8295bb9554f90619b917",
     "assets/fonts/OFL.txt": "c3c8402eec0e31dc9a76851235b1c02a0bb821488b2db8e35bcc2ab60ca8fc2b",
     "assets/fonts/archivo-italic.woff2": "3d109f97a71d3d3d04d16e5c4b95be8f89146a55ebbed239b90f5a8c5d4f437a",
     "assets/fonts/archivo.woff2": "8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967",
     "assets/guide.js": "06dbaa7c2b04dbe10e0fed56fec3395cda2a4fbdf964473f59b4976e03945290",
     "assets/rob-personal.css": "7191b7cd2d8c0903d170c59a120f3c75dbb819437de3393768872047c3c5165e",
     "assets/site.css": "a5c0528d7d471057efe784d72890d7f0261742e20d3d02ee6ab21596a469ddda",
-    "chatgpt-quick-start-guide/index.html": "44f53de633138ff3d34514e87c8cc624480e4b4ffdc207b7f2fd5012ac7426d4",
+    "chatgpt-quick-start-guide/index.html": "f19fa4646193a0f3bc60447422d4447d3b29da31f80e64153162fb41648e8be9",
     "favicon.ico": "a5ddcb57e386d9c2d9a208cf348efddf0eac052c2eac0ae0ca2de2a67c267c68",
     "favicon.svg": "19c55402fb933ad06e91d50f46794f420c389d342611a63a3f8b0efb2fed8a8a",
-    "index.html": "dfb91cd13378958bb32cf1970a41a70bf52a0e18282f20b32132e3ddb07a5899"
+    "index.html": "eee425f0dc425cfdd9a8ab92140672a1edf4429473ea3a95c9be4e02a9c8760d"
   }
 }
