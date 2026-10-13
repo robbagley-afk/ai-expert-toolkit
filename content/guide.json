@@ -55,7 +55,11 @@
               "text": "Increase effort when needed and add human review. Keep scope explicit. Consult your campus policy and the current Model Value Map."
             }
           ],
-          "notice": "Raise effort only after a result fails your check. Higher effort takes more time and usage. Menu labels and models vary by account and campus settings."
+          "notice": "Raise effort only after a result fails your check. Higher effort takes more time and usage. Menu labels and models vary by account and campus settings.",
+          "link": {
+            "text": "Open the AI Model Value Map",
+            "url": "https://robbagley-afk.github.io/model-value-map/"
+          }
         },
         {
           "id": "modes",
@@ -279,6 +283,10 @@
     {
       "title": "Projects in ChatGPT",
       "url": "https://help.openai.com/en/articles/10169521-projects-in-chatgpt"
+    },
+    {
+      "title": "AI Model Value Map",
+      "url": "https://robbagley-afk.github.io/model-value-map/"
     },
     {
       "title": "GPT retirement and migration",

@@ -18,7 +18,7 @@ def validate(d):
  if re.search(r'/Users/|OneDrive|mem\.ai/|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|(?i:api[_-]?key|access[_-]?token)',text):raise ValueError('Private content in public input')
  ids=[x['id'] for x in d['checklist']]
  if len(ids)!=len(set(ids)) or any(not re.fullmatch(r'[a-z][a-z0-9-]*',x) for x in ids):raise ValueError('Invalid checklist IDs')
- for s in d['sources']:
+ for s in d['sources']+[x['link'] for pg in d['pages'] for x in pg['sections'] if x.get('link')]:
   u=urlparse(s['url'])
   if u.scheme!='https' or not u.netloc:raise ValueError('Sources require HTTPS')
 def esc(t):return html.escape(t,quote=True)
@@ -31,6 +31,7 @@ def section(s):
  if s.get('steps'):out+='<ol class="rp-steps">'+''.join(f'<li>{esc(x)}</li>' for x in s['steps'])+'</ol>'
  if s.get('bullets'):out+='<ul class="bullets">'+''.join(f'<li>{esc(x)}</li>' for x in s['bullets'])+'</ul>'
  if s.get('notice'):out+=f'<p class="rp-note">{esc(s["notice"])}</p>'
+ if s.get('link'):out+=f'<p><a class="rp-btn rp-btn-primary" href="{esc(s["link"]["url"])}">{esc(s["link"]["text"])}<span aria-hidden="true">→</span></a></p>'
  return out+'</div></section>'
 def head(title,d,prefix,extra=''):
  return f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)}</title><meta name="description" content="{esc(d["subtitle"])}"><link rel="icon" href="{prefix}favicon.ico"><link rel="icon" type="image/svg+xml" href="{prefix}favicon.svg"><link rel="preload" href="{prefix}assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="{prefix}assets/rob-personal.css"><link rel="stylesheet" href="{prefix}assets/site.css">{extra}</head>'
@@ -89,6 +90,7 @@ def pdf(path,d,rev):
    for key in ('steps','bullets'):
     for n,item in enumerate(s.get(key,[])):story.append(Paragraph((f'<font name="Archivo-ExtraBold" color="{ACCENT_TEXT}">{n+1:02d}</font>  ' if key=='steps' else f'<font name="ZapfDingbats" size="6" color="{ACCENT}">n</font>  ')+esc(item),styles['BodySmall']))
    if s.get('notice'):story.append(Paragraph(f'<font name="ZapfDingbats" size="6" color="{ACCENT}">n</font>  '+esc(s['notice']),styles['BodySmall']))
+   if s.get('link'):story.append(Paragraph(f'<font name="Archivo-ExtraBold"><link href="{esc(s["link"]["url"])}" color="{ACCENT_TEXT}">{esc(s["link"]["text"])} →</link></font>  '+esc(s['link']['url']),styles['BodySmall']))
    story.append(rule(.5,SOFT))
   if i==2:
    story.append(p('CHECKLIST','Kicker'));story.append(p('Try these next','SectionSmall'))
