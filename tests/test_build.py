@@ -21,5 +21,8 @@ class BuildTests(unittest.TestCase):
  def test_printable_empty_checkboxes(self):
   with tempfile.TemporaryDirectory() as td:
    path=pathlib.Path(td)/'guide.pdf';b.pdf(path,self.data,'test')
-   self.assertEqual(PdfReader(path).pages[2].extract_text().count('[ ]'),8)
+   # Tick boxes are drawn vector squares; every checklist item must print on page 3 in order.
+   text=' '.join(PdfReader(path).pages[2].extract_text().split())
+   pos=[text.find(' '.join(c['text'].split())) for c in self.data['checklist']]
+   self.assertTrue(all(p>=0 for p in pos),pos);self.assertEqual(pos,sorted(pos))
 if __name__=='__main__':unittest.main()

@@ -3,7 +3,7 @@
 import argparse,datetime,hashlib,html,json,pathlib,re,tempfile
 from urllib.parse import urlparse
 from reportlab.pdfgen.canvas import Canvas
-from reportlab.platypus import SimpleDocTemplate,Paragraph,Spacer,Table,TableStyle,PageBreak
+from reportlab.platypus import SimpleDocTemplate,Paragraph,Spacer,Table,TableStyle,PageBreak,Flowable
 from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
 from reportlab.lib import colors
 from PIL import Image,ImageDraw
@@ -25,12 +25,14 @@ def esc(t):return html.escape(t,quote=True)
 def section(s):
  out=f'<section class="topic" id="{esc(s["id"])}"><div class="topic-head"><div class="rp-kicker">{esc(s["kicker"])}</div><h3>{esc(s["title"])}</h3></div><div class="topic-body">'
  if s.get('intro'):out+=f'<p class="intro">{esc(s["intro"])}</p>'
- if s.get('cards'):out+='<div class="rp-grid rp-boxed cards">'+''.join(f'<div class="rp-tinted"><h4>{esc(c["title"])}</h4><p>{esc(c["text"])}</p></div>' for c in s['cards'])+'</div>'
+ if s.get('date'):out+=f'<p class="intro"><strong>{esc(s["date"]["text"])}</strong></p>'
+ if s.get('cards'):out+='<div class="rp-grid rp-boxed cards">'+''.join(f'<div class="rp-tinted">'+(f'<p class="rp-label">{esc(c["label"])}</p>' if c.get('label') else '')+f'<h4>{esc(c["title"])}</h4><p>{esc(c["text"])}</p></div>' for c in s['cards'])+'</div>'
  if s.get('table'):
   t=s['table'];out+='<div class="rp-table-wrap"><table class="rp-table"><thead><tr>'+''.join(f'<th scope="col">{esc(x)}</th>' for x in t['headers'])+'</tr></thead><tbody>'+''.join('<tr>'+''.join((f'<th scope="row">{esc(x)}</th>' if i==0 else f'<td>{esc(x)}</td>') for i,x in enumerate(r))+'</tr>' for r in t['rows'])+'</tbody></table></div>'
  if s.get('steps'):out+='<ol class="rp-steps">'+''.join(f'<li>{esc(x)}</li>' for x in s['steps'])+'</ol>'
  if s.get('bullets'):out+='<ul class="bullets">'+''.join(f'<li>{esc(x)}</li>' for x in s['bullets'])+'</ul>'
  if s.get('notice'):out+=f'<p class="rp-note">{esc(s["notice"])}</p>'
+ if s.get('try'):out+=f'<p class="rp-note"><strong>Quick win:</strong> {esc(s["try"])}</p>'
  if s.get('link'):out+=f'<p><a class="rp-btn rp-btn-primary" href="{esc(s["link"]["url"])}">{esc(s["link"]["text"])}<span aria-hidden="true">→</span></a></p>'
  return out+'</div></section>'
 def head(title,d,prefix,extra=''):
@@ -67,48 +69,102 @@ def fonts():
  if 'Archivo' in pdfmetrics.getRegisteredFontNames():return
  for n in ('Regular','SemiBold','ExtraBold'):pdfmetrics.registerFont(TTFont('Archivo' if n=='Regular' else 'Archivo-'+n,str(ROOT/'templates/pdf-fonts'/f'Archivo-{n}.ttf')))
  addMapping('Archivo',0,0,'Archivo');addMapping('Archivo',1,0,'Archivo-ExtraBold');addMapping('Archivo',0,1,'Archivo');addMapping('Archivo',1,1,'Archivo-ExtraBold')
+class Box(Flowable):
+ # Filled square or empty tick box drawn as vector art, so it prints crisply and stays findable in grayscale.
+ def __init__(self,size,fill,stroke=None,dy=0,h=None):Flowable.__init__(self);self.size,self.fill,self.stroke,self.dy=size,fill,stroke,dy;self.width=size;self.height=h or size
+ def draw(self):
+  c=self.canv;c.setFillColor(colors.HexColor(self.fill))
+  if self.stroke:c.setStrokeColor(colors.HexColor(self.stroke));c.setLineWidth(1.5)
+  c.rect(0,self.dy,self.size,self.size,fill=1,stroke=1 if self.stroke else 0)
 def pdf(path,d,rev):
+ # Layout follows the Design canvas "ChatGPT Quick Start Handout Redesign" (three Letter artboards).
  fonts()
- styles=getSampleStyleSheet()
- styles.add(ParagraphStyle(name='BodySmall',fontName='Archivo',fontSize=8.8,leading=11.6,spaceAfter=4,textColor=colors.HexColor(INK)))
- styles.add(ParagraphStyle(name='Kicker',fontName='Archivo-SemiBold',fontSize=6.8,leading=8,spaceBefore=8,spaceAfter=1,textColor=colors.HexColor(ACCENT_TEXT)))
- styles.add(ParagraphStyle(name='SectionSmall',fontName='Archivo-ExtraBold',fontSize=12.5,leading=14.5,spaceAfter=5,textColor=colors.HexColor(INK)))
- styles.add(ParagraphStyle(name='CardSmall',parent=styles['BodySmall'],fontSize=8,leading=10.2,spaceAfter=0))
- p=lambda t,sty='BodySmall':Paragraph(esc(t),styles[sty])
- rule=lambda w=1.4,c=INK:Table([['']],colWidths=[524],rowHeights=[2],style=TableStyle([('LINEABOVE',(0,0),(-1,0),w,colors.HexColor(c))]))
+ W=528;ink,acc,acct,mut,sur,soft=(colors.HexColor(x) for x in (INK,ACCENT,ACCENT_TEXT,MUTED,SURFACE,SOFT))
+ S=lambda name,font='Archivo',size=9.4,lead=13.2,color=INK,**kw:ParagraphStyle(name=name,fontName=font,fontSize=size,leading=lead,textColor=colors.HexColor(color),**kw)
+ st={'body':S('body',size=8.9,lead=11.9),'intro':S('intro',size=9.8,lead=13.4),'note':S('note',size=8.6,lead=11.4,color=MUTED),'kick':S('kick','Archivo-SemiBold',9,11,ACCENT_TEXT),
+  'lab':S('lab','Archivo-SemiBold',7.8,10,MUTED),'ct':S('ct','Archivo-ExtraBold',10,12),'title':S('title','Archivo-ExtraBold',15,17),'num':S('num','Archivo-ExtraBold',27,25,ACCENT),
+  'stepn':S('stepn','Archivo-ExtraBold',10,12,ACCENT),'white':S('white',size=9.2,lead=12.4,color='#ffffff'),'whiteb':S('whiteb','Archivo-ExtraBold',9,11,'#ffffff'),
+  'h1':S('h1','Archivo-ExtraBold',31,30),'sub':S('sub',size=11,lead=15),'panel':S('panel',size=9,lead=12,color='#f3f2f2'),'panelh':S('panelh','Archivo-ExtraBold',9,11,'#f3f2f2'),
+  'th':S('th','Archivo-ExtraBold',9.4,12),'src':S('src',size=8.4,lead=10.8,color=ACCENT_TEXT)}
+ P=lambda t,k='body':Paragraph(t,st[k]);E=lambda t,k='body':P(esc(t),k)
+ up=lambda t:esc(t.upper())
+ n=[0]
+ def head(s):
+  n[0]+=1
+  t=Table([[P(f'{n[0]:02d}','num'),[P(up(s['kicker']),'kick'),E(s['title'],'title')]]],colWidths=[38,W-38])
+  t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'BOTTOM'),('LEFTPADDING',(0,0),(-1,-1),0),('RIGHTPADDING',(0,0),(-1,-1),0),('BOTTOMPADDING',(0,0),(-1,-1),4),('LINEBELOW',(0,0),(-1,0),1.5,ink)]));return t
+ def grid(cells,widths=None,fill=True):
+  t=Table([cells],colWidths=widths or [W/len(cells)]*len(cells))
+  t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('BOX',(0,0),(-1,-1),1.5,ink),('INNERGRID',(0,0),(-1,-1),1.5,ink),('LEFTPADDING',(0,0),(-1,-1),8),('RIGHTPADDING',(0,0),(-1,-1),8),('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),6)]+([('BACKGROUND',(0,0),(-1,-1),sur)] if fill else [])));return t
+ def card(c):return ([E(c['label'].upper(),'lab')] if c.get('label') else [])+[E(c['title'],'ct'),E(c['text'])]
+ def flat(t,style):t.setStyle(TableStyle([('LEFTPADDING',(0,0),(-1,-1),0),('RIGHTPADDING',(0,0),(-1,-1),0),('TOPPADDING',(0,0),(-1,-1),0),('BOTTOMPADDING',(0,0),(-1,-1),0)]+style));return t
+ def note(text):return flat(Table([[Box(5,ACCENT,dy=4.6,h=11.4),E(text,'note')]],colWidths=[12,W-12]),[('VALIGN',(0,0),(-1,-1),'TOP')])
+ def steps(items):
+  t=Table([[[P(f'{i+1:02d}','stepn'),E(x)] for i,x in enumerate(items)]],colWidths=[W/len(items)]*len(items))
+  return flat(t,[('VALIGN',(0,0),(-1,-1),'TOP'),('LINEABOVE',(0,0),(-1,0),.75,soft),('TOPPADDING',(0,0),(-1,-1),4),('RIGHTPADDING',(0,0),(-1,-1),10)])
+ def band(label,text):
+  t=Table([[P(up(label),'whiteb'),E(text,'white')]],colWidths=[78,W-78])
+  t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),acc),('VALIGN',(0,0),(-1,-1),'MIDDLE'),('LEFTPADDING',(0,0),(-1,-1),10),('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),6)]));return t
+ gap=lambda h=5:Spacer(1,h)
  story=[]
  for i,page in enumerate(d['pages']):
   if i:story.append(PageBreak())
+  if i==0:
+   c=d['checklist']
+   panel=Table([[E('YOUR FIRST WEEK','panelh')]]+[[P(f'<font name="Archivo-ExtraBold" color="#7fa8ec">Day {k+1}</font>  '+esc(c[k]['text']),'panel')] for k in range(3)]+[[E('Full checklist on page 3.','note')]],colWidths=[186])
+   panel.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),ink),('LEFTPADDING',(0,0),(-1,-1),11),('RIGHTPADDING',(0,0),(-1,-1),11),('TOPPADDING',(0,0),(-1,-1),3),('BOTTOMPADDING',(0,0),(-1,-1),3),('TOPPADDING',(0,0),(-1,0),9),('BOTTOMPADDING',(0,-1),(-1,-1),8),('TEXTCOLOR',(0,-1),(-1,-1),colors.HexColor('#b8b4b4'))]))
+   hero=Table([[[P(esc(d['title'])+f'<font color="{ACCENT}">.</font>','h1'),gap(5),E(d['subtitle'],'sub')],panel]],colWidths=[W-204,204])
+   story+= [flat(hero,[('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(1,0),(1,0),18)]),gap(6)]
   for s in page['sections']:
-   story.append(p(s['kicker'].upper(),'Kicker'));story.append(p(s['title'],'SectionSmall'))
-   if s.get('intro'):story.append(p(s['intro']))
-   if s.get('cards'):
-    row=[Paragraph('<font name="Archivo-ExtraBold">'+esc(c['title'])+'</font><br/>'+esc(c['text']),styles['CardSmall']) for c in s['cards']]
-    t=Table([row],colWidths=[524/len(row)]*len(row));t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('BACKGROUND',(0,0),(-1,-1),colors.HexColor(SURFACE)),('BOX',(0,0),(-1,-1),1.4,colors.HexColor(INK)),('INNERGRID',(0,0),(-1,-1),1.4,colors.HexColor(INK)),('LEFTPADDING',(0,0),(-1,-1),7),('RIGHTPADDING',(0,0),(-1,-1),7),('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),6)]));story.extend([t,Spacer(1,5)])
+   story+=[head(s),gap(5)]
+   if s.get('intro'):story+=[E(s['intro'],'intro'),gap(6)]
    if s.get('table'):
-    data=[s['table']['headers']]+s['table']['rows'];t=Table([[p(c,'CardSmall') for c in r] for r in data],colWidths=[72,150,150,152]);t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('LINEABOVE',(0,0),(-1,0),1.4,colors.HexColor(INK)),('LINEBELOW',(0,0),(-1,0),1.4,colors.HexColor(INK)),('LINEBELOW',(0,1),(-1,-1),.5,colors.HexColor(SOFT)),('LEFTPADDING',(0,0),(0,-1),0)]));story.extend([t,Spacer(1,5)])
-   for key in ('steps','bullets'):
-    for n,item in enumerate(s.get(key,[])):story.append(Paragraph((f'<font name="Archivo-ExtraBold" color="{ACCENT_TEXT}">{n+1:02d}</font>  ' if key=='steps' else f'<font name="ZapfDingbats" size="6" color="{ACCENT}">n</font>  ')+esc(item),styles['BodySmall']))
-   if s.get('notice'):story.append(Paragraph(f'<font name="ZapfDingbats" size="6" color="{ACCENT}">n</font>  '+esc(s['notice']),styles['BodySmall']))
-   if s.get('link'):story.append(Paragraph(f'<font name="Archivo-ExtraBold"><link href="{esc(s["link"]["url"])}" color="{ACCENT_TEXT}">{esc(s["link"]["text"])} →</link></font>  '+esc(s['link']['url']),styles['BodySmall']))
-   story.append(rule(.5,SOFT))
+    t=s['table'];rows=[[E(x,'th') for x in t['headers']]]+[[E(r[0].upper(),'lab')]+[E(x) for x in r[1:]] for r in t['rows']]
+    story+=[flat(Table(rows,colWidths=[78,150,150,150]),[('VALIGN',(0,0),(-1,-1),'TOP'),('LINEBELOW',(0,0),(-1,0),1.5,ink),('LINEBELOW',(0,1),(-1,-1),.75,soft),('TOPPADDING',(0,0),(-1,-1),4),('BOTTOMPADDING',(0,0),(-1,-1),5),('RIGHTPADDING',(0,0),(-1,-1),8)]),gap()]
+   if s.get('cards'):
+    cs=s['cards']
+    if all(c['title'].endswith('day') for c in cs):
+     cells=[flat(Table([[band_tag(c['title'][:3].upper()),E(c['text'])]],colWidths=[38,W/len(cs)-56]),[('VALIGN',(0,0),(-1,-1),'TOP')]) for c in cs]
+     story+=[grid(cells,fill=False),gap()]
+    elif s.get('date'):
+     dt=s['date'];tile=[E(dt['label'].upper(),'whiteb'),Paragraph(esc(dt['big']),S('big','Archivo-ExtraBold',23,25,'#ffffff')),E(dt['small'],'whiteb')]
+     inner=grid([card(c) for c in cs],[(W-112)/3]*3)
+     t=Table([[tile,inner]],colWidths=[112,W-112]);t.setStyle(TableStyle([('BACKGROUND',(0,0),(0,0),acc),('VALIGN',(0,0),(0,0),'MIDDLE'),('LEFTPADDING',(0,0),(0,0),10),('LEFTPADDING',(1,0),(1,0),0),('RIGHTPADDING',(1,0),(1,0),0),('TOPPADDING',(1,0),(1,0),0),('BOTTOMPADDING',(1,0),(1,0),0),('BOX',(0,0),(-1,-1),1.5,ink)]))
+     story+=[t,gap()]
+    else:story+=[grid([card(c) for c in cs]),gap()]
+   if s.get('link'):
+    l=s['link'];btn=Table([[P(f'<link href="{esc(l["url"])}" color="#ffffff">{esc(l["text"])}</link>','whiteb')]],rowHeights=[26]);btn.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),acc),('VALIGN',(0,0),(-1,-1),'MIDDLE'),('LEFTPADDING',(0,0),(-1,-1),12),('RIGHTPADDING',(0,0),(-1,-1),12)]))
+    side=E(s['notice'],'note') if s.get('notice') else ''
+    story+=[flat(Table([[btn,side]],colWidths=[176,W-176]),[('VALIGN',(0,0),(-1,-1),'MIDDLE'),('LEFTPADDING',(1,0),(1,0),12)]),gap()]
+   if s.get('steps'):story+=[steps(s['steps']),gap()]
+   if s.get('bullets'):
+    b=s['bullets'];cols=3;rows=[[[P(f'<font name="Archivo-ExtraBold" color="{ACCENT}">{r*cols+k+1}</font>  '+esc(b[r*cols+k]))] for k in range(cols)] for r in range(len(b)//cols)]
+    story+=[flat(Table(rows,colWidths=[W/cols]*cols),[('VALIGN',(0,0),(-1,-1),'TOP'),('LINEABOVE',(0,0),(-1,0),1.5,ink),('LINEBELOW',(0,0),(-1,-1),.75,soft),('TOPPADDING',(0,0),(-1,-1),3),('BOTTOMPADDING',(0,0),(-1,-1),4),('RIGHTPADDING',(0,0),(-1,-1),10)]),gap()]
+   if s.get('try'):story+=[band('Quick win',s['try']),gap()]
+   if s.get('notice') and not s.get('link'):story+=[note(s['notice']),gap()]  # a link row carries its notice beside the button
+   story.append(gap(4))
   if i==2:
-   story.append(p('CHECKLIST','Kicker'));story.append(p('Try these next','SectionSmall'))
-   checks=[p('[ ] '+c['text'],'CardSmall') for c in d['checklist']]
-   t=Table([[checks[j],checks[j+1]] for j in range(0,len(checks),2)],colWidths=[262,262]);t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('LINEBELOW',(0,0),(-1,-1),.5,colors.HexColor(SOFT)),('LEFTPADDING',(0,0),(0,-1),0)]));story.append(t)
-   links=' · '.join(f'<link href="{esc(s["url"])}" color="{ACCENT_TEXT}">{esc(s["title"])}</link>' for s in d['sources'])
-   story.append(Spacer(1,4));story.append(Paragraph('<font name="Archivo-ExtraBold">Sources:</font> '+links,styles['CardSmall']))
+   items=[flat(Table([[Box(10,'#ffffff',INK),E(c['text'])]],colWidths=[18,(W-40)/2-18]),[('VALIGN',(0,0),(-1,-1),'MIDDLE')]) for c in d['checklist']]
+   rows=[[items[j],items[j+1]] for j in range(0,len(items),2)]
+   chk=flat(Table(rows,colWidths=[(W-40)/2+10,(W-40)/2+10]),[('LINEBELOW',(0,0),(-1,-1),.75,soft),('TOPPADDING',(0,0),(-1,-1),3),('BOTTOMPADDING',(0,0),(-1,-1),3),('RIGHTPADDING',(0,0),(0,-1),12)])
+   ttl=flat(Table([[P('Try these next'+f'<font color="{ACCENT}">.</font>','title'),E('ONE A DAY. TICK AS YOU GO.','lab')]],colWidths=[260,W-28-260]),[('VALIGN',(0,0),(-1,-1),'BOTTOM'),('ALIGN',(1,0),(1,0),'RIGHT')])
+   wrap=Table([[ttl],[chk]],colWidths=[W]);wrap.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),sur),('BOX',(0,0),(-1,-1),1.5,ink),('LEFTPADDING',(0,0),(-1,-1),14),('RIGHTPADDING',(0,0),(-1,-1),14),('TOPPADDING',(0,0),(0,0),8),('BOTTOMPADDING',(0,-1),(-1,-1),8)]))
+   story+=[wrap,gap(8),E('SOURCES AND CURRENT GUIDANCE','lab'),gap(4)]
+   src=[P(f'<link href="{esc(x["url"])}" color="{ACCENT_TEXT}">{esc(x["title"])}</link>','src') for x in d['sources']]
+   src+=['']*(-len(src)%3)
+   story.append(flat(Table([src[j:j+3] for j in range(0,len(src),3)],colWidths=[W/3]*3),[('VALIGN',(0,0),(-1,-1),'TOP'),('BOTTOMPADDING',(0,0),(-1,-1),3),('RIGHTPADDING',(0,0),(-1,-1),10)]))
  def decorate(c,doc):
-  n=min(doc.page-1,2)
-  c.setFillColor(colors.HexColor(INK));c.setFont('Archivo-ExtraBold',18);c.drawString(44,748,d['title']);w=c.stringWidth(d['title'],'Archivo-ExtraBold',18)
-  c.setFillColor(colors.HexColor(ACCENT));c.drawString(44+w,748,'.')
-  c.setFillColor(colors.HexColor(ACCENT));c.setFont('Archivo-ExtraBold',18);c.drawRightString(568,748,f'{doc.page:02d}')
-  c.setFillColor(colors.HexColor(INK));c.setFont('Archivo-SemiBold',8);c.drawString(44,734,d['pages'][n]['title'].upper())
-  c.setStrokeColor(colors.HexColor(INK));c.setLineWidth(1.4);c.line(44,726,568,726)
-  c.setLineWidth(1.4);c.line(44,40,568,40)
-  c.setFillColor(colors.HexColor(MUTED));c.setFont('Archivo',7);c.drawString(44,28,f'Rob Bagley · Reviewed {d["reviewed"]} · Revision {rev[:12]}');c.drawRightString(568,28,f'{doc.page} / 3')
- SimpleDocTemplate(str(path),pagesize=(612,792),leftMargin=44,rightMargin=44,topMargin=76,bottomMargin=48,title=d['title'],author='Rob Bagley').build(story,onFirstPage=decorate,onLaterPages=decorate,canvasmaker=lambda *a,**kw: Canvas(*a,**dict(kw,invariant=1)))
+  k=doc.page;pt=d['pages'][min(k-1,2)]['title']
+  kick='AI QUICK START · RESOURCE 01' if k==1 else f'{d["title"].upper()}. · {pt.upper()}'
+  c.setFillColor(acct);c.setFont('Archivo-SemiBold',9);c.drawString(42,750,kick)
+  c.setFillColor(acc);c.setFont('Archivo-ExtraBold',13.5);c.drawRightString(570,750,f'{k:02d} / 03')
+  c.setStrokeColor(ink);c.setLineWidth(1.5);c.line(42,742,570,742);c.line(42,42,570,42)
+  c.setFillColor(mut);c.setFont('Archivo',8.25);c.drawString(42,30,f'Rob Bagley · Reviewed {d["reviewed"]} · Revision {rev[:12]} · Verify important results and follow your campus policies.');c.drawRightString(570,30,f'{k} / 3')
+ SimpleDocTemplate(str(path),pagesize=(612,792),leftMargin=42,rightMargin=42,topMargin=58,bottomMargin=48,title=d['title'],author='Rob Bagley').build(story,onFirstPage=decorate,onLaterPages=decorate,canvasmaker=lambda *a,**kw: Canvas(*a,**dict(kw,invariant=1)))
  if len(PdfReader(path).pages)!=3:raise ValueError('Guide exceeds three-page layout. Shorten or reflow content before publishing.')
+def band_tag(day):
+ t=Table([[Paragraph(esc(day),ParagraphStyle(name='tag',fontName='Archivo-ExtraBold',fontSize=9,leading=11,textColor=colors.white))]],colWidths=[32])
+ t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),colors.HexColor(ACCENT)),('LEFTPADDING',(0,0),(-1,-1),4),('RIGHTPADDING',(0,0),(-1,-1),4),('TOPPADDING',(0,0),(-1,-1),2),('BOTTOMPADDING',(0,0),(-1,-1),3)]));return t
 def generate(out):
  d=json.loads((ROOT/'content/guide.json').read_text());validate(d);rev=hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode()).hexdigest()
  out.mkdir(parents=True,exist_ok=True);(out/'assets').mkdir();(out/'chatgpt-quick-start-guide').mkdir()

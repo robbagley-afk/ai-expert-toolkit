@@ -1,7 +1,7 @@
 {
   "title": "ChatGPT Quick Start Guide",
   "subtitle": "Small steps for higher education: organize your work, pick the right settings and let ChatGPT handle the repeats.",
-  "reviewed": "2026-10-13",
+  "reviewed": "2026-10-14",
   "author": {
     "name": "Rob Bagley",
     "linkedin": "https://www.linkedin.com/in/robbagley/"
@@ -44,15 +44,18 @@
           "cards": [
             {
               "title": "Narrow and repeated",
-              "text": "Try GPT-6 Luna at Low for sorting, extraction or a task with a clear right answer."
+              "text": "Try GPT-6 Luna at Low for sorting, extraction or a task with a clear right answer.",
+              "label": "Low"
             },
             {
               "title": "Judgment across sources",
-              "text": "Use GPT-6.1 Sol at Low or Medium for reports, reconciling documents and multistep work. Use the lowest effort that passes your check."
+              "text": "Use GPT-6.1 Sol at Low or Medium for reports, reconciling documents and multistep work. Use the lowest effort that passes your check.",
+              "label": "Low or Medium"
             },
             {
               "title": "Consequential decisions",
-              "text": "Increase effort when needed and add human review. Keep scope explicit. Consult your campus policy and the current Model Value Map."
+              "text": "Increase effort when needed and add human review. Keep scope explicit. Consult your campus policy and the current Model Value Map.",
+              "label": "Higher, plus review"
             }
           ],
           "notice": "Raise effort only after a result fails your check. Higher effort takes more time and usage. Menu labels and models vary by account and campus settings.",
@@ -79,7 +82,7 @@
               "text": "Code, tests and repositories."
             }
           ],
-          "notice": "Quick win: connect an approved document service, find five recent documents and ask for a one-line summary of each."
+          "try": "Connect an approved document service, find five recent documents and ask for a one-line summary of each."
         }
       ]
     },
@@ -119,15 +122,18 @@
           "cards": [
             {
               "title": "Documents and email",
-              "text": "Google Drive, Gmail or Outlook: find an approved document, summarize a thread or draft a reply."
+              "text": "Find an approved document, summarize a thread or draft a reply.",
+              "label": "Google Drive, Gmail, Outlook"
             },
             {
               "title": "Research and study",
-              "text": "Consensus or Quizlet, where available: explore research or build practice flashcards. Check sources and accuracy."
+              "text": "Explore research or build practice flashcards, where available. Check sources and accuracy.",
+              "label": "Consensus, Quizlet"
             },
             {
               "title": "Design",
-              "text": "Canva, where available: turn an outline into an event flyer. Review the result before sharing."
+              "text": "Turn an outline into an event flyer, where available. Review the result before sharing.",
+              "label": "Canva"
             }
           ],
           "notice": "Also check Calendar, SharePoint, Slack, Teams and Notion. Availability varies. Use approved campus services and de-identified examples; follow your student-data policy."
@@ -217,7 +223,7 @@
             "Open Plugins or the app directory shown in your account. Review the tool and its capabilities.",
             "Select Install plugin when shown, then connect required apps using the intended account.",
             "Start a chat and mention the installed tool where supported.",
-            "For your own plugin, test first, add example prompts and name a maintainer. Review sharing permissions; workspace publication is a separate permission."
+            "For your own plugin, test first, add example prompts and name a maintainer. Workspace publication is a separate permission."
           ],
           "notice": "Installing a plugin does not grant access to files or bypass your provider's permissions. Recipients may need to install it and connect their own apps."
         },
@@ -225,7 +231,6 @@
           "id": "migration",
           "kicker": "If you built custom GPTs",
           "title": "Move your GPTs to plugins before they retire",
-          "intro": "Custom GPT retirement is scheduled for December 11, 2026. Follow your account or campus notice.",
           "cards": [
             {
               "title": "What moves",
@@ -240,7 +245,13 @@
               "text": "When available, open My GPTs > Migrate to plugin. Test familiar requests in the same workspace before switching."
             }
           ],
-          "notice": "For affected Enterprise workspaces, October 26 is the planned end of new GPT creation. Dates and access depend on workspace notices."
+          "notice": "Follow your account or campus notice. For affected Enterprise workspaces, October 26 is the planned end of new GPT creation.",
+          "date": {
+            "label": "Retirement",
+            "big": "Dec 11",
+            "small": "2026",
+            "text": "Custom GPT retirement is scheduled for December 11, 2026."
+          }
         }
       ]
     }
