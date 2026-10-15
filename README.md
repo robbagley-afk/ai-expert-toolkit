@@ -1,6 +1,6 @@
 # AI Quick Start
 
-A static GitHub Pages toolkit. Resource 1 is the ChatGPT Quick Start Guide, available as responsive HTML and a three-page PDF. Resource 2 opens the canonical Model Value Map so its data stays current at its own source. Resource 3 links to [Your Portable AI Team](https://your-portable-ai-team.airy-emu-9499.chatgpt.site/), with prompt-led setup, specialist starters and saved task state. The team guide retains its draft and planning labels.
+A static GitHub Pages toolkit. Resource 1 is the ChatGPT Quick Start Guide, available as responsive HTML and a six-page PDF. Resource 2 opens the canonical Model Value Map so its data stays current at its own source. Resource 3 links to [Your Portable AI Team](https://your-portable-ai-team.airy-emu-9499.chatgpt.site/), with prompt-led setup, specialist starters and saved task state. The team guide retains its draft and planning labels.
 
 ## Maintain
 
@@ -12,7 +12,7 @@ python3 scripts/build.py
 python3 scripts/build.py --check
 ```
 
-Preview `docs/` with a local static server. Verify mobile and desktop layouts, checkbox persistence, and all three PDF pages. Publish by committing the source and generated `docs/` to `main`. GitHub Pages serves `main:/docs`. After deployment, compare every live file against `docs/release.json`. The manifest records the reviewed date, content revision and artifact hashes.
+Preview `docs/` with a local static server. Verify mobile and desktop layouts, checkbox persistence, and all PDF pages. Publish by committing the source and generated `docs/` to `main`. GitHub Pages serves `main:/docs`. After deployment, compare every live file against `docs/release.json`. The manifest records the reviewed date, content revision and artifact hashes.
 
 Pages use the shared Style Guide for Rob's Personal Projects in `style-guide/` (Modernist layout, Archivo, blue accent). `scripts/build.py` copies `style-guide/rob-personal.css` and its fonts into `docs/assets/` unchanged; `templates/site.css` holds only page placement. The PDF uses static Archivo instances in `templates/pdf-fonts/`. All fonts are self-hosted under the SIL Open Font License, so pages load no third-party fonts.
 

@@ -104,6 +104,24 @@
             "text": "Open the AI Model Value Map",
             "url": "https://robbagley-afk.github.io/model-value-map/"
           }
+        }
+      ]
+    },
+    {
+      "title": "Usage credits and scheduled work",
+      "sections": [
+        {
+          "id": "usage",
+          "kicker": "Check your allowance",
+          "title": "Work and Codex share usage. Check what is left.",
+          "intro": "In the desktop app, open your profile menu > Settings > Usage & billing. Check that you are in CES ChatGPT. The monthly credits, five-hour limit and weekly limit are separate controls; read each remaining amount and reset time.",
+          "image": {
+            "src": "img/usage-billing.png",
+            "alt": "Usage & billing example showing 1,315 of 1,600 monthly credits used, 18 percent remaining, 100 percent left in the five-hour window and 53 percent left in the weekly window.",
+            "caption": "Example from October 15, 2026: 285 monthly credits remain (1,600 minus 1,315), about 18%. Your balance, limits and reset times will differ.",
+            "pdf_width": 430
+          },
+          "notice": "This allowance covers ChatGPT Work and Codex on plans that share credits. Regular Chat has separate limits. Credits are billing units, not tokens or a fixed number of messages. If a limit is reached, follow the reset or request options shown in your account; campus settings determine access."
         },
         {
           "id": "schedule",
@@ -130,6 +148,44 @@
             }
           ],
           "notice": "Computer-bound tasks need that device available. Cloud tasks have different requirements. If a task's model retires, update it before the next run."
+        }
+      ]
+    },
+    {
+      "title": "Find and use CES plugins",
+      "sections": [
+        {
+          "id": "find-plugins",
+          "kicker": "Find plugins",
+          "title": "Open Customize > Plugins",
+          "intro": "In the desktop app, select Customize in the left rail, then Plugins. Public shows the public directory. Personal shows plugins you created or received.",
+          "image": {
+            "src": "img/plugins-public.png",
+            "alt": "Customize screen with Plugins selected, Public selected, a Search plugins field and the CES ChatGPT and Personal tabs.",
+            "caption": "Use Search plugins to find a tool. Switch from Public to CES ChatGPT to see your workspace collection.",
+            "pdf_width": 280
+          }
+        },
+        {
+          "id": "ces-plugins",
+          "kicker": "Your CES collection",
+          "title": "Choose CES ChatGPT, then add a plugin",
+          "image": {
+            "src": "img/plugins-ces.png",
+            "alt": "CES ChatGPT workspace tab selected, showing shared plugins including AI Token Saver ChatGPT Only and AI Token Saver Multiple Platforms, with plus buttons beside available entries.",
+            "caption": "CES ChatGPT is the workspace collection. Shared tools, including former custom GPTs, appear here as plugins.",
+            "pdf_width": 280
+          },
+          "steps": [
+            "Select CES ChatGPT. Open the plugin or use its + button, then choose Install plugin if prompted. Complete any required app connection.",
+            "Start or open a chat in Work. Type @ and select the installed plugin, or use + > Plugins where shown. Then describe the task.",
+            "For example, select AI Token Saver (ChatGPT Only) and ask: Help me choose a model and effort for this task. In a supported Codex task view, use Sources > Use plugins."
+          ],
+          "link": {
+            "text": "Open the CES setup guide",
+            "url": "https://ai-token-saver.vercel.app/ces/#setup-guides"
+          },
+          "notice": "Install once, then select it in the chat where you need it. Availability and app permissions depend on your workspace."
         }
       ]
     },
@@ -234,20 +290,8 @@
       ]
     },
     {
-      "title": "Share, migrate and go further",
+      "title": "Migrate GPTs and go further",
       "sections": [
-        {
-          "id": "install",
-          "kicker": "Install and share",
-          "title": "Test privately. Share on purpose.",
-          "steps": [
-            "Open Plugins or the app directory shown in your account. Review the tool and its capabilities.",
-            "Select Install plugin when shown, then connect required apps using the intended account.",
-            "Start a chat and mention the installed tool where supported.",
-            "For your own plugin, test first, add example prompts and name a maintainer. Workspace publication is a separate permission."
-          ],
-          "notice": "Installing a plugin does not grant access to files or bypass your provider's permissions. Recipients may need to install it and connect their own apps."
-        },
         {
           "id": "migration",
           "kicker": "If you built custom GPTs",
@@ -372,6 +416,14 @@
     {
       "title": "Current model guidance",
       "url": "https://robbagley-afk.github.io/model-value-map/guidance.md"
+    },
+    {
+      "title": "Work and Codex usage limits",
+      "url": "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan"
+    },
+    {
+      "title": "CES plugin setup guide",
+      "url": "https://ai-token-saver.vercel.app/ces/"
     }
   ],
   "portable_team": {

@@ -13,7 +13,7 @@ MAP='https://robbagley-afk.github.io/model-value-map/'
 TEAM='https://your-portable-ai-team.airy-emu-9499.chatgpt.site/'
 def validate(d):
  datetime.date.fromisoformat(d['reviewed'])
- assert len(d['pages'])==4
+ assert len(d['pages'])>=4
  text=json.dumps(d)
  if re.search(r'/Users/|OneDrive|mem\.ai/|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|(?i:api[_-]?key|access[_-]?token)',text):raise ValueError('Private content in public input')
  ids=[x['id'] for x in d['checklist']]
@@ -27,7 +27,7 @@ def section(s):
  if s.get('intro'):out+=f'<p class="intro">{esc(s["intro"])}</p>'
  if s.get('date'):out+=f'<p class="intro"><strong>{esc(s["date"]["text"])}</strong></p>'
  if s.get('cards'):out+='<div class="rp-grid rp-boxed cards">'+''.join(f'<div class="rp-tinted">'+(f'<p class="rp-label">{esc(c["label"])}</p>' if c.get('label') else '')+f'<h4>{esc(c["title"])}</h4><p>{esc(c["text"])}</p></div>' for c in s['cards'])+'</div>'
- if s.get('image'):im=s['image'];out+=f'<figure class="shot"><img src="../assets/{esc(im["src"])}" alt="{esc(im["alt"])}" loading="lazy"><figcaption class="rp-note">{esc(im["caption"])}</figcaption></figure>'
+ if s.get('image'):im=s['image'];out+=f'<figure class="shot"><a href="../assets/{esc(im["src"])}" aria-label="Open full-size screenshot: {esc(im["alt"])}"><img src="../assets/{esc(im["src"])}" alt="{esc(im["alt"])}" loading="lazy"></a><figcaption class="rp-note">{esc(im["caption"])}</figcaption></figure>'
  if s.get('table'):
   t=s['table'];out+='<div class="rp-table-wrap"><table class="rp-table"><thead><tr>'+''.join(f'<th scope="col">{esc(x)}</th>' for x in t['headers'])+'</tr></thead><tbody>'+''.join('<tr>'+''.join((f'<th scope="row">{esc(x)}</th>' if i==0 else f'<td>{esc(x)}</td>') for i,x in enumerate(r))+'</tr>' for r in t['rows'])+'</tbody></table></div>'
  if s.get('steps'):out+='<ol class="rp-steps">'+''.join(f'<li>{esc(x)}</li>' for x in s['steps'])+'</ol>'
@@ -54,7 +54,7 @@ def shell(title,body,d,rev,child=False):
  return head(title,d,prefix,'<script defer src="../assets/guide.js"></script>' if child else '')+f'<body><a class="rp-skip" href="#main">Skip to content</a>{nav(d,prefix,"guide" if child else "home")}<main id="main">{body}</main>{footer(d,rev)}</body></html>'
 def home_page(d,rev):
  team=d['portable_team']
- rows=[('Learn Projects, models, scheduled tasks and plugins','ChatGPT Quick Start Guide','A practical guide to Projects, models, scheduled tasks, skills and plugins. Read online or download the printable four-page guide.','Web guide · 4-page PDF','Open ChatGPT Guide','chatgpt-quick-start-guide/','Download PDF','ChatGPT-Quick-Start-Guide.pdf'),
+ rows=[('Learn Projects, models, scheduled tasks and plugins','ChatGPT Quick Start Guide',f'A practical guide to Projects, models, usage credits, scheduled tasks, skills and plugins. Read online or download the printable {len(d["pages"])}-page guide.',f'Web guide · {len(d["pages"])}-page PDF','Open ChatGPT Guide','chatgpt-quick-start-guide/','Download PDF','ChatGPT-Quick-Start-Guide.pdf'),
   ('Pick the right model for a task','Model Value Map','Compare model capability and cost using the current public map and its maintained guidance.','Interactive map · Ensign Career Services guidance','Open Model Value Map',MAP,'Ensign Career Services guidance',MAP+'team/'),
   ('Set up a reusable team of AI specialists',team['title'],team['description'],'Setup prompts · specialist starters','Open Portable AI Team',team['url'],'Explore specialist starters',team['url']+'roles-and-skills.html#add-specialists')]
  cells=''.join(f'<article class="resource"><div class="rp-num">{n:02d}</div><div class="rp-label">I want to</div><h2>{esc(need)}</h2><div class="what"><div class="name">{esc(name)}</div><p>{esc(value)}</p><div class="rp-label">{esc(fmt)}</div></div><a class="rp-btn rp-btn-primary rp-btn-block" href="{esc(href)}">{esc(cta)}<span aria-hidden="true">→</span></a><a class="rp-link" href="{esc(href2)}">{esc(cta2)}</a></article>' for n,(need,name,value,fmt,cta,href,cta2,href2) in enumerate(rows,1))
@@ -128,7 +128,8 @@ def pdf(path,d,rev):
      cells=[flat(Table([[band_tag(c['title'][:3].upper()),E(c['text'])]],colWidths=[38,W/len(cs)-56]),[('VALIGN',(0,0),(-1,-1),'TOP')]) for c in cs]
      story+=[grid(cells,fill=False),gap()]
     elif s.get('image'):
-     im=s['image'];iw=300;w0,h0=Image.open(ROOT/'content'/im['src']).size
+     im=s['image'];iw=300
+     with Image.open(ROOT/'content'/im['src']) as source:w0,h0=source.size
      pic=[RLImage(str(ROOT/'content'/im['src']),width=iw,height=iw*h0/w0),gap(3),E(im['caption'],'note')]
      cw=W-iw-14;stack=Table([[card(c)] for c in cs],colWidths=[cw]);stack.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('BOX',(0,0),(-1,-1),1.5,ink),('INNERGRID',(0,0),(-1,-1),1.5,ink),('BACKGROUND',(0,0),(-1,-1),sur),('LEFTPADDING',(0,0),(-1,-1),8),('RIGHTPADDING',(0,0),(-1,-1),8),('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),6)]))
      story+=[flat(Table([[pic,stack]],colWidths=[iw+14,cw]),[('VALIGN',(0,0),(-1,-1),'TOP')]),gap()]
@@ -138,6 +139,11 @@ def pdf(path,d,rev):
      t=Table([[tile,inner]],colWidths=[112,W-112]);t.setStyle(TableStyle([('BACKGROUND',(0,0),(0,0),acc),('VALIGN',(0,0),(0,0),'MIDDLE'),('LEFTPADDING',(0,0),(0,0),10),('LEFTPADDING',(1,0),(1,0),0),('RIGHTPADDING',(1,0),(1,0),0),('TOPPADDING',(1,0),(1,0),0),('BOTTOMPADDING',(1,0),(1,0),0),('BOX',(0,0),(-1,-1),1.5,ink)]))
      story+=[t,gap()]
     else:story+=[grid([card(c) for c in cs]),gap()]
+   if s.get('image') and not s.get('cards'):
+    # Standalone screenshots preserve aspect ratio; the web guide opens them at full size.
+    im=s['image'];iw=im.get('pdf_width',400)
+    with Image.open(ROOT/'content'/im['src']) as source:w0,h0=source.size
+    story+=[RLImage(str(ROOT/'content'/im['src']),width=iw,height=iw*h0/w0),gap(3),E(im['caption'],'note'),gap()]
    if s.get('link'):
     l=s['link'];btn=Table([[P(f'<link href="{esc(l["url"])}" color="#ffffff">{esc(l["text"])}</link>','whiteb')]],rowHeights=[26]);btn.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),acc),('VALIGN',(0,0),(-1,-1),'MIDDLE'),('LEFTPADDING',(0,0),(-1,-1),12),('RIGHTPADDING',(0,0),(-1,-1),12)]))
     side=E(s['notice'],'note') if s.get('notice') else ''

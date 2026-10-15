@@ -1,19 +1,22 @@
 {
   "reviewed": "2026-10-15",
-  "revision": "668a31ce6655287e2020dc39dc91412dd09c4a602b505055b307c1859c514d9f",
+  "revision": "d04d09317735604566187010cc2acd76bfb207bb8c73a317330f053aadf36341",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "ChatGPT-Quick-Start-Guide.pdf": "5bccc6072e664014e58adc5441378f4044bd02e17da1ea046108fa7251b0f25f",
+    "ChatGPT-Quick-Start-Guide.pdf": "3cc05005165b4e279e4e1c18dd449efd8148a42957515f3846075b48cbd1b50c",
     "assets/fonts/OFL.txt": "c3c8402eec0e31dc9a76851235b1c02a0bb821488b2db8e35bcc2ab60ca8fc2b",
     "assets/fonts/archivo-italic.woff2": "3d109f97a71d3d3d04d16e5c4b95be8f89146a55ebbed239b90f5a8c5d4f437a",
     "assets/fonts/archivo.woff2": "8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967",
     "assets/guide.js": "06dbaa7c2b04dbe10e0fed56fec3395cda2a4fbdf964473f59b4976e03945290",
     "assets/img/chat-work-switch.png": "0c9fbe14936902c1d32fd592e74ebded7daf92f3ffffc5aa802b9af0ed920047",
+    "assets/img/plugins-ces.png": "951115a403ef04634264da6d2ea65610de6d89b5454fbfb87568de7e792dd761",
+    "assets/img/plugins-public.png": "449e4c4ac6ef929bbbcf2d8a6399ec5723213c06302c44bc22558ffd8abc49ca",
+    "assets/img/usage-billing.png": "4ec7711ca428226c9da4c9193a7bb70de701e73cc6abc56554af47dcf2e925b8",
     "assets/rob-personal.css": "7191b7cd2d8c0903d170c59a120f3c75dbb819437de3393768872047c3c5165e",
     "assets/site.css": "7c6e2abacf026d4a75b83480726692634ace338ba4ab644fff841c642955fb5c",
-    "chatgpt-quick-start-guide/index.html": "d200bf2c29c4c75cb7569cfb6e4b9cd9d851ac1787fa77ba0d80a26dfa1be21e",
+    "chatgpt-quick-start-guide/index.html": "9f4fab56b16e5eb9710d06fe5e34aef5a57ff19c585d61fb225596d33892dac0",
     "favicon.ico": "a5ddcb57e386d9c2d9a208cf348efddf0eac052c2eac0ae0ca2de2a67c267c68",
     "favicon.svg": "19c55402fb933ad06e91d50f46794f420c389d342611a63a3f8b0efb2fed8a8a",
-    "index.html": "0e0563cccb04e5a37e9a5d65ffe6dcb00b95da5bf26ce30f81240fb5569e66be"
+    "index.html": "3cc1e396776463a1cb69130e638d10a1d5e37821eb4bc4987786d9b2bca59172"
   }
 }
