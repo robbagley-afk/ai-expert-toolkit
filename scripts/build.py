@@ -3,7 +3,7 @@
 import argparse,datetime,hashlib,html,json,pathlib,re,tempfile
 from urllib.parse import urlparse
 from reportlab.pdfgen.canvas import Canvas
-from reportlab.platypus import SimpleDocTemplate,Paragraph,Spacer,Table,TableStyle,PageBreak,Flowable
+from reportlab.platypus import Image as RLImage,SimpleDocTemplate,Paragraph,Spacer,Table,TableStyle,PageBreak,Flowable
 from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
 from reportlab.lib import colors
 from PIL import Image,ImageDraw
@@ -13,7 +13,7 @@ MAP='https://robbagley-afk.github.io/model-value-map/'
 TEAM='https://your-portable-ai-team.airy-emu-9499.chatgpt.site/'
 def validate(d):
  datetime.date.fromisoformat(d['reviewed'])
- assert len(d['pages'])==3
+ assert len(d['pages'])==4
  text=json.dumps(d)
  if re.search(r'/Users/|OneDrive|mem\.ai/|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|(?i:api[_-]?key|access[_-]?token)',text):raise ValueError('Private content in public input')
  ids=[x['id'] for x in d['checklist']]
@@ -27,6 +27,7 @@ def section(s):
  if s.get('intro'):out+=f'<p class="intro">{esc(s["intro"])}</p>'
  if s.get('date'):out+=f'<p class="intro"><strong>{esc(s["date"]["text"])}</strong></p>'
  if s.get('cards'):out+='<div class="rp-grid rp-boxed cards">'+''.join(f'<div class="rp-tinted">'+(f'<p class="rp-label">{esc(c["label"])}</p>' if c.get('label') else '')+f'<h4>{esc(c["title"])}</h4><p>{esc(c["text"])}</p></div>' for c in s['cards'])+'</div>'
+ if s.get('image'):im=s['image'];out+=f'<figure class="shot"><img src="../assets/{esc(im["src"])}" alt="{esc(im["alt"])}" loading="lazy"><figcaption class="rp-note">{esc(im["caption"])}</figcaption></figure>'
  if s.get('table'):
   t=s['table'];out+='<div class="rp-table-wrap"><table class="rp-table"><thead><tr>'+''.join(f'<th scope="col">{esc(x)}</th>' for x in t['headers'])+'</tr></thead><tbody>'+''.join('<tr>'+''.join((f'<th scope="row">{esc(x)}</th>' if i==0 else f'<td>{esc(x)}</td>') for i,x in enumerate(r))+'</tr>' for r in t['rows'])+'</tbody></table></div>'
  if s.get('steps'):out+='<ol class="rp-steps">'+''.join(f'<li>{esc(x)}</li>' for x in s['steps'])+'</ol>'
@@ -53,7 +54,7 @@ def shell(title,body,d,rev,child=False):
  return head(title,d,prefix,'<script defer src="../assets/guide.js"></script>' if child else '')+f'<body><a class="rp-skip" href="#main">Skip to content</a>{nav(d,prefix,"guide" if child else "home")}<main id="main">{body}</main>{footer(d,rev)}</body></html>'
 def home_page(d,rev):
  team=d['portable_team']
- rows=[('Learn Projects, models, scheduled tasks and plugins','ChatGPT Quick Start Guide','A practical guide to Projects, models, scheduled tasks, skills and plugins. Read online or download the printable three-page guide.','Web guide · 3-page PDF','Open ChatGPT Guide','chatgpt-quick-start-guide/','Download PDF','ChatGPT-Quick-Start-Guide.pdf'),
+ rows=[('Learn Projects, models, scheduled tasks and plugins','ChatGPT Quick Start Guide','A practical guide to Projects, models, scheduled tasks, skills and plugins. Read online or download the printable four-page guide.','Web guide · 4-page PDF','Open ChatGPT Guide','chatgpt-quick-start-guide/','Download PDF','ChatGPT-Quick-Start-Guide.pdf'),
   ('Pick the right model for a task','Model Value Map','Compare model capability and cost using the current public map and its maintained guidance.','Interactive map · Ensign Career Services guidance','Open Model Value Map',MAP,'Ensign Career Services guidance',MAP+'team/'),
   ('Set up a reusable team of AI specialists',team['title'],team['description'],'Setup prompts · specialist starters','Open Portable AI Team',team['url'],'Explore specialist starters',team['url']+'roles-and-skills.html#add-specialists')]
  cells=''.join(f'<article class="resource"><div class="rp-num">{n:02d}</div><div class="rp-label">I want to</div><h2>{esc(need)}</h2><div class="what"><div class="name">{esc(name)}</div><p>{esc(value)}</p><div class="rp-label">{esc(fmt)}</div></div><a class="rp-btn rp-btn-primary rp-btn-block" href="{esc(href)}">{esc(cta)}<span aria-hidden="true">→</span></a><a class="rp-link" href="{esc(href2)}">{esc(cta2)}</a></article>' for n,(need,name,value,fmt,cta,href,cta2,href2) in enumerate(rows,1))
@@ -111,7 +112,7 @@ def pdf(path,d,rev):
   if i:story.append(PageBreak())
   if i==0:
    c=d['checklist']
-   panel=Table([[E('YOUR FIRST WEEK','panelh')]]+[[P(f'<font name="Archivo-ExtraBold" color="#7fa8ec">Day {k+1}</font>  '+esc(c[k]['text']),'panel')] for k in range(3)]+[[E('Full checklist on page 3.','note')]],colWidths=[186])
+   panel=Table([[E('YOUR FIRST WEEK','panelh')]]+[[P(f'<font name="Archivo-ExtraBold" color="#7fa8ec">Day {k+1}</font>  '+esc(c[k]['text']),'panel')] for k in range(3)]+[[E(f'Full checklist on page {len(d["pages"])}.','note')]],colWidths=[186])
    panel.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),ink),('LEFTPADDING',(0,0),(-1,-1),11),('RIGHTPADDING',(0,0),(-1,-1),11),('TOPPADDING',(0,0),(-1,-1),3),('BOTTOMPADDING',(0,0),(-1,-1),3),('TOPPADDING',(0,0),(-1,0),9),('BOTTOMPADDING',(0,-1),(-1,-1),8),('TEXTCOLOR',(0,-1),(-1,-1),colors.HexColor('#b8b4b4'))]))
    hero=Table([[[P(esc(d['title'])+f'<font color="{ACCENT}">.</font>','h1'),gap(5),E(d['subtitle'],'sub')],panel]],colWidths=[W-204,204])
    story+= [flat(hero,[('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(1,0),(1,0),18)]),gap(6)]
@@ -126,6 +127,11 @@ def pdf(path,d,rev):
     if all(c['title'].endswith('day') for c in cs):
      cells=[flat(Table([[band_tag(c['title'][:3].upper()),E(c['text'])]],colWidths=[38,W/len(cs)-56]),[('VALIGN',(0,0),(-1,-1),'TOP')]) for c in cs]
      story+=[grid(cells,fill=False),gap()]
+    elif s.get('image'):
+     im=s['image'];iw=300;w0,h0=Image.open(ROOT/'content'/im['src']).size
+     pic=[RLImage(str(ROOT/'content'/im['src']),width=iw,height=iw*h0/w0),gap(3),E(im['caption'],'note')]
+     cw=W-iw-14;stack=Table([[card(c)] for c in cs],colWidths=[cw]);stack.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('BOX',(0,0),(-1,-1),1.5,ink),('INNERGRID',(0,0),(-1,-1),1.5,ink),('BACKGROUND',(0,0),(-1,-1),sur),('LEFTPADDING',(0,0),(-1,-1),8),('RIGHTPADDING',(0,0),(-1,-1),8),('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),6)]))
+     story+=[flat(Table([[pic,stack]],colWidths=[iw+14,cw]),[('VALIGN',(0,0),(-1,-1),'TOP')]),gap()]
     elif s.get('date'):
      dt=s['date'];tile=[E(dt['label'].upper(),'whiteb'),Paragraph(esc(dt['big']),S('big','Archivo-ExtraBold',23,25,'#ffffff')),E(dt['small'],'whiteb')]
      inner=grid([card(c) for c in cs],[(W-112)/3]*3)
@@ -143,7 +149,7 @@ def pdf(path,d,rev):
    if s.get('try'):story+=[band('Quick win',s['try']),gap()]
    if s.get('notice') and not s.get('link'):story+=[note(s['notice']),gap()]  # a link row carries its notice beside the button
    story.append(gap(4))
-  if i==2:
+  if i==len(d['pages'])-1:
    items=[flat(Table([[Box(10,'#ffffff',INK),E(c['text'])]],colWidths=[18,(W-40)/2-18]),[('VALIGN',(0,0),(-1,-1),'MIDDLE')]) for c in d['checklist']]
    rows=[[items[j],items[j+1]] for j in range(0,len(items),2)]
    chk=flat(Table(rows,colWidths=[(W-40)/2+10,(W-40)/2+10]),[('LINEBELOW',(0,0),(-1,-1),.75,soft),('TOPPADDING',(0,0),(-1,-1),3),('BOTTOMPADDING',(0,0),(-1,-1),3),('RIGHTPADDING',(0,0),(0,-1),12)])
@@ -154,14 +160,14 @@ def pdf(path,d,rev):
    src+=['']*(-len(src)%3)
    story.append(flat(Table([src[j:j+3] for j in range(0,len(src),3)],colWidths=[W/3]*3),[('VALIGN',(0,0),(-1,-1),'TOP'),('BOTTOMPADDING',(0,0),(-1,-1),3),('RIGHTPADDING',(0,0),(-1,-1),10)]))
  def decorate(c,doc):
-  k=doc.page;pt=d['pages'][min(k-1,2)]['title']
+  k=doc.page;N=len(d['pages']);pt=d['pages'][min(k-1,N-1)]['title']
   kick='AI QUICK START · RESOURCE 01' if k==1 else f'{d["title"].upper()}. · {pt.upper()}'
   c.setFillColor(acct);c.setFont('Archivo-SemiBold',9);c.drawString(42,750,kick)
-  c.setFillColor(acc);c.setFont('Archivo-ExtraBold',13.5);c.drawRightString(570,750,f'{k:02d} / 03')
+  c.setFillColor(acc);c.setFont('Archivo-ExtraBold',13.5);c.drawRightString(570,750,f'{k:02d} / {N:02d}')
   c.setStrokeColor(ink);c.setLineWidth(1.5);c.line(42,742,570,742);c.line(42,42,570,42)
-  c.setFillColor(mut);c.setFont('Archivo',8.25);c.drawString(42,30,f'Rob Bagley · Reviewed {d["reviewed"]} · Revision {rev[:12]} · Verify important results and follow your campus policies.');c.drawRightString(570,30,f'{k} / 3')
+  c.setFillColor(mut);c.setFont('Archivo',8.25);c.drawString(42,30,f'Rob Bagley · Reviewed {d["reviewed"]} · Revision {rev[:12]} · Verify important results and follow your campus policies.');c.drawRightString(570,30,f'{k} / {N}')
  SimpleDocTemplate(str(path),pagesize=(612,792),leftMargin=42,rightMargin=42,topMargin=58,bottomMargin=48,title=d['title'],author='Rob Bagley').build(story,onFirstPage=decorate,onLaterPages=decorate,canvasmaker=lambda *a,**kw: Canvas(*a,**dict(kw,invariant=1)))
- if len(PdfReader(path).pages)!=3:raise ValueError('Guide exceeds three-page layout. Shorten or reflow content before publishing.')
+ if len(PdfReader(path).pages)!=len(d['pages']):raise ValueError('Guide exceeds its page layout. Shorten or reflow content before publishing.')
 def band_tag(day):
  t=Table([[Paragraph(esc(day),ParagraphStyle(name='tag',fontName='Archivo-ExtraBold',fontSize=9,leading=11,textColor=colors.white))]],colWidths=[32])
  t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),colors.HexColor(ACCENT)),('LEFTPADDING',(0,0),(-1,-1),4),('RIGHTPADDING',(0,0),(-1,-1),4),('TOPPADDING',(0,0),(-1,-1),2),('BOTTOMPADDING',(0,0),(-1,-1),3)]));return t
@@ -170,15 +176,17 @@ def generate(out):
  out.mkdir(parents=True,exist_ok=True);(out/'assets').mkdir();(out/'chatgpt-quick-start-guide').mkdir()
  (out/'index.html').write_text(home_page(d,rev))
  body=f'<div class="rp-page"><section class="rp-hero"><div class="rp-hero-title"><div class="rp-kicker">Resource 01</div><h1 class="rp-display">{esc(d["title"])}<span class="rp-dot">.</span></h1></div><div class="guide-lede"><p class="rp-lede">{esc(d["subtitle"])}</p><a class="rp-btn rp-btn-primary no-print" href="../ChatGPT-Quick-Start-Guide.pdf">Download printable PDF<span aria-hidden="true">↓</span></a><p class="rp-label">Reviewed {d["reviewed"]} · Revision {rev[:12]}</p></div></section>'
- parts=[(f'part-{i+1}',f'{i+1:02d}',pg['title']) for i,pg in enumerate(d['pages'])]+[('checklist','04','Try these next')]
+ parts=[(f'part-{i+1}',f'{i+1:02d}',pg['title']) for i,pg in enumerate(d['pages'])]+[('checklist',f'{len(d["pages"])+1:02d}','Try these next')]
  body+='<nav class="rp-grid rp-boxed toc" aria-label="In this guide" style="--rp-cell:200px">'+''.join(f'<a href="#{a}"><span class="toc-num">{n}</span>{esc(t)}</a>' for a,n,t in parts)+'</nav>'
  for i,page in enumerate(d['pages']):body+=f'<article class="rp-section chapter" id="part-{i+1}"><div class="rp-section-head"><span class="rp-num">{i+1:02d}</span><h2>{esc(page["title"])}</h2></div>'+''.join(section(s) for s in page['sections'])+'</article>'
- body+='</div><section class="rp-band" id="checklist"><div class="rp-band-inner"><span class="rp-band-big" aria-hidden="true">04</span><h2 class="rp-band-big">Try these next.</h2></div></section><div class="rp-page after-band"><p class="rp-kicker progress" data-progress aria-live="polite">0 of 8 complete</p><ul class="checks">'+''.join(f'<li><label class="rp-check"><input type="checkbox" data-check="{esc(c["id"])}"><span>{esc(c["text"])}</span></label></li>' for c in d['checklist'])+'</ul><p class="meta">Checklist progress is saved in this browser when local storage is available.</p><section class="sources"><h2 class="rp-label">Sources and current guidance</h2><ul class="source-list">'+''.join(f'<li><a href="{esc(s["url"])}">{esc(s["title"])}</a></li>' for s in d['sources'])+'</ul></section></div>'
+ body+=f'</div><section class="rp-band" id="checklist"><div class="rp-band-inner"><span class="rp-band-big" aria-hidden="true">{len(d["pages"])+1:02d}</span><h2 class="rp-band-big">Try these next.</h2></div></section><div class="rp-page after-band"><p class="rp-kicker progress" data-progress aria-live="polite">0 of 8 complete</p><ul class="checks">'+''.join(f'<li><label class="rp-check"><input type="checkbox" data-check="{esc(c["id"])}"><span>{esc(c["text"])}</span></label></li>' for c in d['checklist'])+'</ul><p class="meta">Checklist progress is saved in this browser when local storage is available.</p><section class="sources"><h2 class="rp-label">Sources and current guidance</h2><ul class="source-list">'+''.join(f'<li><a href="{esc(s["url"])}">{esc(s["title"])}</a></li>' for s in d['sources'])+'</ul></section></div>'
  (out/'chatgpt-quick-start-guide/index.html').write_text(shell(d['title'],body,d,rev,True))
  for name in ('site.css','guide.js'):(out/'assets'/name).write_bytes((ROOT/'templates'/name).read_bytes())
  # The shared style sheet ships unchanged from style-guide/, so every personal site gets the same file.
  (out/'assets'/'fonts').mkdir()
  for name in ('rob-personal.css','fonts/archivo.woff2','fonts/archivo-italic.woff2','fonts/OFL.txt'):(out/'assets'/name).write_bytes((ROOT/'style-guide'/name).read_bytes())
+ for sec in (x for pg in d['pages'] for x in pg['sections'] if x.get('image')):
+  dst=out/'assets'/sec['image']['src'];dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes((ROOT/'content'/sec['image']['src']).read_bytes())
  (out/'.nojekyll').write_text('')
  (out/'favicon.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#172441"/><path d="M12 16h17l3 5 3-5h17v33H35l-3 5-3-5H12z" fill="#fff"/><path d="M32 23v24" stroke="#205bb6" stroke-width="3"/></svg>')
  im=Image.new('RGB',(64,64),'#172441');draw=ImageDraw.Draw(im);draw.rounded_rectangle((10,14,54,49),4,fill='white');draw.line((32,17,32,49),fill='#205bb6',width=3);im.save(out/'favicon.ico',sizes=[(16,16),(32,32),(64,64)])

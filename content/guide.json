@@ -1,18 +1,59 @@
 {
   "title": "ChatGPT Quick Start Guide",
   "subtitle": "Small steps for higher education: organize your work, pick the right settings and let ChatGPT handle the repeats.",
-  "reviewed": "2026-10-14",
+  "reviewed": "2026-10-15",
   "author": {
     "name": "Rob Bagley",
     "linkedin": "https://www.linkedin.com/in/robbagley/"
   },
   "pages": [
     {
-      "title": "Start here: Projects, models and effort",
+      "title": "Start here: the app, Chat and Work",
+      "sections": [
+        {
+          "id": "app",
+          "kicker": "Get the app",
+          "title": "Get the official ChatGPT app and sign in with your .edu account",
+          "intro": "App stores list many look-alike ChatGPT apps. Get the real one from OpenAI so your campus account and its protections apply.",
+          "steps": [
+            "Go to chatgpt.com/download. On a phone, search ChatGPT and confirm the publisher is OpenAI.",
+            "Install the app for your device: Mac, Windows, iPhone or Android.",
+            "Open the app and choose Log in. Enter your full campus email address, the one ending in .edu.",
+            "Finish your campus sign-in. Check that your school's workspace name shows in the profile menu."
+          ],
+          "notice": "Signed in with a personal email? Log out and sign in again with your .edu address so you get your campus plan and its data rules."
+        },
+        {
+          "id": "modes",
+          "kicker": "Choose a mode",
+          "title": "Chat or Work? Pick the mode at the top of the screen",
+          "cards": [
+            {
+              "label": "Chat",
+              "title": "Talk it through",
+              "text": "Questions, quick drafts and explanations. You stay in the conversation and steer each reply."
+            },
+            {
+              "label": "Work",
+              "title": "Hand off a job",
+              "text": "Multistep tasks that produce a finished file, such as a report or slide deck. ChatGPT plans, uses your tools and reports back."
+            }
+          ],
+          "image": {
+            "src": "img/chat-work-switch.png",
+            "alt": "ChatGPT home screen with the Chat and Work switch at the top center, Work selected",
+            "caption": "Find the Chat | Work switch at the top center of the ChatGPT home screen. Click either side to change modes."
+          },
+          "try": "Connect an approved document service, find five recent documents and ask for a one-line summary of each."
+        }
+      ]
+    },
+    {
+      "title": "Projects, models and scheduled tasks",
       "sections": [
         {
           "id": "projects",
-          "kicker": "Start here",
+          "kicker": "Organize",
           "title": "Put each ongoing job in a Project",
           "intro": "A Project is a folder for chats, files and instructions about one job. Every new chat in it starts with that context, so you stop re-explaining.",
           "cards": [
@@ -65,31 +106,6 @@
           }
         },
         {
-          "id": "modes",
-          "kicker": "Chat, Work or Codex?",
-          "title": "Choose the surface for the result",
-          "cards": [
-            {
-              "title": "Chat",
-              "text": "Questions, quick drafts and explanations."
-            },
-            {
-              "title": "Work",
-              "text": "Multistep jobs that produce a finished artifact."
-            },
-            {
-              "title": "Codex",
-              "text": "Code, tests and repositories."
-            }
-          ],
-          "try": "Connect an approved document service, find five recent documents and ask for a one-line summary of each."
-        }
-      ]
-    },
-    {
-      "title": "Repeat work and useful habits",
-      "sections": [
-        {
           "id": "schedule",
           "kicker": "Scheduled tasks",
           "title": "Let ChatGPT show up on a schedule",
@@ -97,7 +113,7 @@
             "Open Scheduled when available, or describe the task and when it should run.",
             "Choose a one-time or recurring schedule. Supported connected apps may offer event triggers.",
             "Review the account, sources, instructions and permissions before relying on a run.",
-            "Check results and paused tasks in Scheduled. Codex automations are managed separately."
+            "Check results and paused tasks in Scheduled."
           ],
           "cards": [
             {
@@ -114,7 +130,12 @@
             }
           ],
           "notice": "Computer-bound tasks need that device available. Cloud tasks have different requirements. If a task's model retires, update it before the next run."
-        },
+        }
+      ]
+    },
+    {
+      "title": "Tools, skills and plugins",
+      "sections": [
         {
           "id": "tools",
           "kicker": "Find useful tools",
@@ -176,12 +197,7 @@
             "Search for an existing tool before you build one.",
             "Add one new habit at a time."
           ]
-        }
-      ]
-    },
-    {
-      "title": "Plugins, sharing and GPT migration",
-      "sections": [
+        },
         {
           "id": "difference",
           "kicker": "Know the difference",
@@ -214,7 +230,12 @@
               ]
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "title": "Share, migrate and go further",
+      "sections": [
         {
           "id": "install",
           "kicker": "Install and share",
@@ -252,6 +273,27 @@
             "small": "2026",
             "text": "Custom GPT retirement is scheduled for December 11, 2026."
           }
+        },
+        {
+          "id": "codex",
+          "kicker": "Advanced",
+          "title": "Ready for more? Codex works with code",
+          "intro": "Codex is a third mode for code, tests and repositories. Most people never need it. Try it once Chat and Work feel routine.",
+          "cards": [
+            {
+              "title": "Write and fix code",
+              "text": "Describe a script or bug. Codex edits the files and runs the checks."
+            },
+            {
+              "title": "Work in a repository",
+              "text": "Connect an approved code repository and ask for a change you can review before it lands."
+            },
+            {
+              "title": "Automations",
+              "text": "Codex automations run on their own schedule, separate from ChatGPT Scheduled tasks."
+            }
+          ],
+          "notice": "Use Codex only with code and data your campus allows. Review every change before you use it."
         }
       ]
     }
@@ -291,6 +333,10 @@
     }
   ],
   "sources": [
+    {
+      "title": "Download ChatGPT",
+      "url": "https://chatgpt.com/download"
+    },
     {
       "title": "Projects in ChatGPT",
       "url": "https://help.openai.com/en/articles/10169521-projects-in-chatgpt"
