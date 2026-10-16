@@ -56,7 +56,7 @@
             "alt": "ChatGPT home screen with the Chat and Work switch at the top center, Work selected",
             "caption": "From this home screen, select the Customize icon circled in magenta to open plugin settings."
           },
-          "try": "Connect an approved document service, find five recent documents and ask for a one-line summary of each."
+          "try": "Install the SharePoint plugin. Open a new chat, type @sharepoint to add the plugin to the chat, then type: \"Find five recent documents and give me a one-line summary of each.\""
         }
       ]
     },
