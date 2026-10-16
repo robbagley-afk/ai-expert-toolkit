@@ -14,14 +14,14 @@
           "id": "app",
           "kicker": "Get the app",
           "title": "Get the official ChatGPT app and sign in with your .edu account",
-          "intro": "App stores list many look-alike ChatGPT apps. Get the real one from OpenAI so your campus account and its protections apply.",
+          "intro": "Install ChatGPT on your computer first. The desktop app has the full set of features. Skip search results and ads, which often point to look-alike apps, and type the address below into your browser.",
           "steps": [
-            "Go to chatgpt.com/download. On a phone, search ChatGPT and confirm the publisher is OpenAI.",
-            "Install the app for your device: Mac, Windows, iPhone or Android.",
+            "On your computer, type chatgpt.com/download into the browser address bar.",
+            "Download and install the app for Mac or Windows. On Windows, the Microsoft Store listing must show OpenAI as the publisher.",
             "Open the app and choose Log in. Enter your full campus email address, the one ending in .edu.",
             "Finish your campus sign-in. Check that your school's workspace name shows in the profile menu."
           ],
-          "notice": "Signed in with a personal email? Log out and sign in again with your .edu address so you get your campus plan and its data rules."
+          "notice": "Signed in with a personal email? Log out and sign in again with your .edu address so you get your campus plan and its data rules. Want it on your phone later? In the App Store or Google Play, install ChatGPT only when the publisher is OpenAI."
         },
         {
           "id": "modes",
