@@ -1,22 +1,24 @@
 {
   "reviewed": "2026-10-15",
-  "revision": "9e9f270df95f24f5ae4cfba582e734df8c59ebb450a99cd65d702c5dec54658c",
+  "revision": "64288ab2e5cbf352f0663800115822cef0ac6b766b01a06f2e84f9bb51aba551",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "ChatGPT-Quick-Start-Guide.pdf": "71982a2c1f5462d28072eb5334c39ced61116ea81cc9706d872a4f4656643f28",
+    "ChatGPT-Quick-Start-Guide.pdf": "14d3310232b61f925e299d38cb2aacab862df99a652c39358e2573b8e70ab513",
     "assets/fonts/OFL.txt": "c3c8402eec0e31dc9a76851235b1c02a0bb821488b2db8e35bcc2ab60ca8fc2b",
     "assets/fonts/archivo-italic.woff2": "3d109f97a71d3d3d04d16e5c4b95be8f89146a55ebbed239b90f5a8c5d4f437a",
     "assets/fonts/archivo.woff2": "8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967",
     "assets/guide.js": "06dbaa7c2b04dbe10e0fed56fec3395cda2a4fbdf964473f59b4976e03945290",
-    "assets/img/chat-work-switch.png": "0c9fbe14936902c1d32fd592e74ebded7daf92f3ffffc5aa802b9af0ed920047",
+    "assets/img/ces-logo.jpeg": "914d45ca2eaf4fcddb7f8b3c82b56e40be903217a8315af7db081127f501ad16",
+    "assets/img/chat-work-switch.jpeg": "a111983ec1f705438b5c0a9d5e35f98d6bb3948cc176d1d15af7edb33241496f",
+    "assets/img/iphone-chip-analogy.png": "a122edc03e0ed8bc21500de58b94394f8395d4b9f37e24958d74c9ea439ce521",
     "assets/img/plugins-ces.png": "951115a403ef04634264da6d2ea65610de6d89b5454fbfb87568de7e792dd761",
-    "assets/img/plugins-public.png": "449e4c4ac6ef929bbbcf2d8a6399ec5723213c06302c44bc22558ffd8abc49ca",
+    "assets/img/plugins-settings.jpeg": "0cefb362f51d98b8130963bdcf5f334466ea2c74cde8737209fffce5624a3680",
     "assets/img/usage-billing.png": "4ec7711ca428226c9da4c9193a7bb70de701e73cc6abc56554af47dcf2e925b8",
     "assets/rob-personal.css": "7191b7cd2d8c0903d170c59a120f3c75dbb819437de3393768872047c3c5165e",
-    "assets/site.css": "7c6e2abacf026d4a75b83480726692634ace338ba4ab644fff841c642955fb5c",
-    "chatgpt-quick-start-guide/index.html": "ee0dc91b23bee76236e461c0773a9a6103e9abb4c9a827dc654a1b3bc60056ff",
+    "assets/site.css": "a015805947fa133d63c66623411f8bc72e542d491060e8738d367fc77f0a609e",
+    "chatgpt-quick-start-guide/index.html": "70242471a06f145a6017df20ea26d309e9d0856d37a50d0836d45bad437aadc5",
     "favicon.ico": "a5ddcb57e386d9c2d9a208cf348efddf0eac052c2eac0ae0ca2de2a67c267c68",
     "favicon.svg": "19c55402fb933ad06e91d50f46794f420c389d342611a63a3f8b0efb2fed8a8a",
-    "index.html": "3aab1e5bfa8b429ab47c8f5547c82ae44da8754de8d6f475f35f728f408d6518"
+    "index.html": "a95272c78bdf2f9b4c69d0e13653047f583a5fcce76a7e264d526c7d203d54c2"
   }
 }

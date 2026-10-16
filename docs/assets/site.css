@@ -55,3 +55,8 @@ html{scroll-behavior:smooth}
 .rp-byline{margin-top:14px;font-size:14px;letter-spacing:.04em;color:var(--rp-accent-text)}
 .rp-byline strong{font-weight:var(--rp-w-label)}
 .shot{margin:16px 0}.shot img{display:block;max-width:100%;height:auto;border:1.5px solid var(--rp-ink,#201e1d)}.shot figcaption{margin-top:6px}
+
+.rp-ces-check{align-items:center;padding:8px 12px;border:1px solid var(--rp-rule-soft);background:var(--rp-surface)}
+.rp-ces-check::before{display:none}
+.rp-ces-check img{flex:none;width:auto;height:46px;max-width:46px;object-fit:contain}
+.rp-ces-check strong{font-weight:var(--rp-w-head)}

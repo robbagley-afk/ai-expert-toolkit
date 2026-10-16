@@ -14,14 +14,26 @@
           "id": "app",
           "kicker": "Get the app",
           "title": "Get the official ChatGPT app and sign in with your .edu account",
-          "intro": "Install ChatGPT on your computer first. The desktop app has the full set of features. Skip search results and ads, which often point to look-alike apps, and type the address below into your browser.",
+          "intro": "Install ChatGPT on your computer first for the broadest agent features. Work handles supported multi-step tasks in a browser, but some are desktop-only. Skip search ads, which lead to look-alike apps. [OpenAI app guide](https://help.openai.com/en/articles/20001276-moving-to-the-new-chatgpt-desktop-app).",
           "steps": [
-            "On your computer, type chatgpt.com/download into the browser address bar.",
-            "Download and install the app for Mac or Windows. On Windows, the Microsoft Store listing must show OpenAI as the publisher.",
+            {
+              "before": "On your computer, type ",
+              "link_text": "chatgpt.com/download",
+              "url": "https://chatgpt.com/download",
+              "after": " into the browser address bar."
+            },
+            "Install the app for Mac or Windows. The publisher must be OpenAI.",
             "Open the app and choose Log in. Enter your full campus email address, the one ending in .edu.",
-            "Finish your campus sign-in. Check that your school's workspace name shows in the profile menu."
+            "Finish your campus sign-in."
           ],
-          "notice": "Signed in with a personal email? Log out and sign in again with your .edu address so you get your campus plan and its data rules. Want it on your phone later? In the App Store or Google Play, install ChatGPT only when the publisher is OpenAI."
+          "notice": "Signed in with a personal email? Log out and sign in again with your .edu address so you get your campus plan and its data privacy. For your phone later, install only the app published by OpenAI.",
+          "format": "markdown",
+          "verification": {
+            "src": "img/ces-logo.jpeg",
+            "alt": "CES logo",
+            "label": "Verify you are in the CES workspace",
+            "text": "Check that your school's workspace name appears in the profile menu. The CES logo at the lower-left is another visual cue that you are in the CES workspace."
+          }
         },
         {
           "id": "modes",
@@ -40,9 +52,9 @@
             }
           ],
           "image": {
-            "src": "img/chat-work-switch.png",
+            "src": "img/chat-work-switch.jpeg",
             "alt": "ChatGPT home screen with the Chat and Work switch at the top center, Work selected",
-            "caption": "Find the Chat | Work switch at the top center of the ChatGPT home screen. Click either side to change modes."
+            "caption": "From this home screen, select the Customize icon circled in magenta to open plugin settings."
           },
           "try": "Connect an approved document service, find five recent documents and ask for a one-line summary of each."
         }
@@ -85,12 +97,12 @@
           "cards": [
             {
               "title": "Narrow and repeated",
-              "text": "Try GPT-6 Luna at Low for sorting, extraction or a task with a clear right answer.",
+              "text": "Try **GPT-6 Luna** at **Low** for sorting, extraction or a task with a clear right answer.",
               "label": "Low"
             },
             {
               "title": "Judgment across sources",
-              "text": "Use GPT-6.1 Sol at Low or Medium for reports, reconciling documents and multistep work. Use the lowest effort that passes your check.",
+              "text": "Use **GPT-6.1 Sol** at **Low** or **Medium** for reports, reconciling documents and multistep work. Use the lowest effort that passes your check.",
               "label": "Low or Medium"
             },
             {
@@ -103,7 +115,32 @@
           "link": {
             "text": "Open the AI Model Value Map",
             "url": "https://robbagley-afk.github.io/model-value-map/"
-          }
+          },
+          "format": "markdown"
+        }
+      ]
+    },
+    {
+      "title": "Models, versions and effort",
+      "sections": [
+        {
+          "id": "iphone-chip-analogy",
+          "kicker": "A SIMPLE ANALOGY",
+          "title": "AI models are like the chips inside iPhones.",
+          "format": "markdown",
+          "image": {
+            "src": "img/iphone-chip-analogy.png",
+            "alt": "Two-panel illustration comparing how to choose a chip tier with how to choose an AI model and effort level.",
+            "caption": "The chip comparison is an analogy for model tiers and effort. AI models do not run on iPhone chips.",
+            "pdf_width": 528
+          },
+          "paragraphs": [
+            "**Family and model:** Apple’s **A-series** includes different chip tiers. The **iPhone 16** uses **A18**, while the **iPhone 16 Pro** uses **A18 Pro**. Similarly, **GPT-6 Luna** and **GPT-6 Sol** offer different capability tiers within an AI family.",
+            "**Version:** A newer chip generation can be both more powerful and more efficient. Apple reported that **A18 Pro** offered up to **15% faster CPU performance**, or the same workload using **20% less power**, compared with **A17 Pro**. AI releases can improve capability and efficiency in a similar way. [Apple’s announcement](https://www.apple.com/newsroom/2024/09/apple-debuts-iphone-16-pro-and-iphone-16-pro-max/)",
+            "**Effort:** The same chip can handle a quick calculation or spend more computation processing a video. Likewise, you can give an AI model **Low**, **Medium**, or **High effort**, even for the same question.",
+            "**Usage:** Moving from **Luna** to **Sol** can cost more **per token**. Increasing **effort** generally uses more **reasoning tokens** and takes longer. A stronger model does not necessarily use more tokens, but each token can be more expensive. [OpenAI’s reasoning guide](https://developers.openai.com/api/docs/guides/reasoning)",
+            "**Choose the capability the task needs, then give it enough effort to produce a reliable result.**"
+          ]
         }
       ]
     },
@@ -158,13 +195,14 @@
           "id": "find-plugins",
           "kicker": "Find plugins",
           "title": "Open Customize > Plugins",
-          "intro": "In the desktop app, select Customize in the left rail, then Plugins. Public shows the public directory. Personal shows plugins you created or received.",
+          "intro": "In the desktop app, select the **Customize** icon circled on page 1, then choose **Plugins**. Select Public to browse, CES ChatGPT for shared CES tools, or Personal for plugins you created or received.",
           "image": {
-            "src": "img/plugins-public.png",
-            "alt": "Customize screen with Plugins selected, Public selected, a Search plugins field and the CES ChatGPT and Personal tabs.",
-            "caption": "Use Search plugins to find a tool. Switch from Public to CES ChatGPT to see your workspace collection.",
+            "src": "img/plugins-settings.jpeg",
+            "alt": "ChatGPT Customize screen with Plugins selected, Public selected, a Search plugins field, and CES ChatGPT and Personal tabs.",
+            "caption": "In Customize, choose Plugins. Public shows the directory; CES ChatGPT and Personal show other plugin collections.",
             "pdf_width": 280
-          }
+          },
+          "format": "markdown"
         },
         {
           "id": "ces-plugins",
@@ -178,14 +216,16 @@
           },
           "steps": [
             "Select CES ChatGPT. Open the plugin or use its + button, then choose Install plugin if prompted. Complete any required app connection.",
-            "Start or open a chat in Work. Type @ and select the installed plugin, or use + > Plugins where shown. Then describe the task.",
+            "Start or open a chat in Work. In that chat, type @ and select the installed plugin, or use + > Plugins where shown. Then describe the task.",
             "For example, select AI Token Saver (ChatGPT Only) and ask: Help me choose a model and effort for this task. In a supported Codex task view, use Sources > Use plugins."
           ],
           "link": {
             "text": "Open the CES setup guide",
             "url": "https://ai-token-saver.vercel.app/ces/#setup-guides"
           },
-          "notice": "Install once, then select it in the chat where you need it. Availability and app permissions depend on your workspace."
+          "notice": "Installing a plugin adds it to your toolbox. Selecting it in a chat brings it to that chat’s workbench, so it can help with the current task using only the connections and permissions available there.",
+          "format": "markdown",
+          "example": "If both apps are available and connected, select **Outlook Calendar** and **SharePoint** in one chat. Ask: “Find three open 30-minute slots next week and use our SharePoint kickoff brief to draft an agenda. Cite the brief. Don’t schedule an event or edit the document.”"
         }
       ]
     },
@@ -261,26 +301,22 @@
           "table": {
             "headers": [
               "",
-              "Custom GPT",
               "Skill",
               "Plugin"
             ],
             "rows": [
               [
                 "Purpose",
-                "A separate chatbot",
                 "Reusable task instructions",
                 "Skills, files and connected capabilities"
               ],
               [
                 "Tools",
-                "Apps or custom actions",
                 "Uses tools available to the task",
                 "May include connected apps"
               ],
               [
                 "Sharing",
-                "Existing GPT permissions",
                 "Account and workspace controls",
                 "Share intentionally; apps authorize separately"
               ]
@@ -322,7 +358,7 @@
           "id": "codex",
           "kicker": "Advanced",
           "title": "Ready for more? Codex works with code",
-          "intro": "Codex is a third mode for code, tests and repositories. Most people never need it. Try it once Chat and Work feel routine.",
+          "intro": "Codex is a third mode for code, tests and repositories. It is a great tool if you want to use AI to create an app or website. Try it once Chat and Work feel routine.",
           "cards": [
             {
               "title": "Write and fix code",
@@ -357,7 +393,7 @@
     },
     {
       "id": "connect",
-      "text": "Connect one approved app and summarize a document"
+      "text": "Add the SharePoint plugin to a chat and ask “Summarize what you know of the key projects my team is working on”"
     },
     {
       "id": "skill",

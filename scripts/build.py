@@ -21,19 +21,52 @@ def validate(d):
  for s in d['sources']+[x['link'] for pg in d['pages'] for x in pg['sections'] if x.get('link')]:
   u=urlparse(s['url'])
   if u.scheme!='https' or not u.netloc:raise ValueError('Sources require HTTPS')
+ for item in (x for pg in d['pages'] for sec in pg['sections'] for x in sec.get('steps',[]) if isinstance(x,dict)):
+  u=urlparse(item['url'])
+  if u.scheme!='https' or not u.netloc:raise ValueError('Step links require HTTPS')
+ for sec in (sec for pg in d['pages'] for sec in pg['sections'] if sec.get('format')=='markdown'):
+  values=[sec.get(k,'') for k in ('intro','notice','try','example')]+sec.get('paragraphs',[])+[c.get('text','') for c in sec.get('cards',[])]+[x for x in sec.get('steps',[]) if isinstance(x,str)]
+  values += [f'{x.get("before","")}{x.get("link_text","")}{x.get("after","")}' for x in sec.get('steps',[]) if isinstance(x,dict)]
+  for value in values:
+   for match in re.finditer(r'\[([^\]]+)\]\(([^)\s]+)\)',value):
+    u=urlparse(match.group(2))
+    if u.scheme!='https' or not u.netloc:raise ValueError('Inline links require HTTPS')
 def esc(t):return html.escape(t,quote=True)
+def inline_markdown(text,target='html'):
+ if target not in ('html','pdf'):raise ValueError('Unknown inline-markdown target')
+ out=[];cursor=0
+ token=re.compile(r'\*\*(.+?)\*\*|\[([^\]]+)\]\(([^)\s]+)\)')
+ for match in token.finditer(text):
+  out.append(esc(text[cursor:match.start()]))
+  if match.group(1):out.append(f'<strong>{esc(match.group(1))}</strong>' if target=='html' else f'<b>{esc(match.group(1))}</b>')
+  else:
+   url=match.group(3);parsed=urlparse(url)
+   if parsed.scheme!='https' or not parsed.netloc:raise ValueError('Inline links require HTTPS')
+   if target=='html':out.append(f'<a href="{esc(url)}">{esc(match.group(2))}</a>')
+   else:out.append(f'<link href="{esc(url)}" color="#174a94">{esc(match.group(2))}</link>')
+  cursor=match.end()
+ out.append(esc(text[cursor:]))
+ return ''.join(out)
+def step_html(x):
+ if isinstance(x,str):return esc(x)
+ return f'{esc(x["before"])}<a href="{esc(x["url"])}"><strong>{esc(x["link_text"])}</strong></a>{esc(x["after"])}'
 def section(s):
+ rich=s.get('format')=='markdown';fmt=lambda t:inline_markdown(t) if rich else esc(t)
  out=f'<section class="topic" id="{esc(s["id"])}"><div class="topic-head"><div class="rp-kicker">{esc(s["kicker"])}</div><h3>{esc(s["title"])}</h3></div><div class="topic-body">'
- if s.get('intro'):out+=f'<p class="intro">{esc(s["intro"])}</p>'
+ if s.get('intro'):out+=f'<p class="intro">{fmt(s["intro"])}</p>'
  if s.get('date'):out+=f'<p class="intro"><strong>{esc(s["date"]["text"])}</strong></p>'
- if s.get('cards'):out+='<div class="rp-grid rp-boxed cards">'+''.join(f'<div class="rp-tinted">'+(f'<p class="rp-label">{esc(c["label"])}</p>' if c.get('label') else '')+f'<h4>{esc(c["title"])}</h4><p>{esc(c["text"])}</p></div>' for c in s['cards'])+'</div>'
+ if s.get('cards'):out+='<div class="rp-grid rp-boxed cards">'+''.join(f'<div class="rp-tinted">'+(f'<p class="rp-label">{esc(c["label"])}</p>' if c.get('label') else '')+f'<h4>{esc(c["title"])}</h4><p>{fmt(c["text"])}</p></div>' for c in s['cards'])+'</div>'
  if s.get('image'):im=s['image'];out+=f'<figure class="shot"><a href="../assets/{esc(im["src"])}" aria-label="Open full-size screenshot: {esc(im["alt"])}"><img src="../assets/{esc(im["src"])}" alt="{esc(im["alt"])}" loading="lazy"></a><figcaption class="rp-note">{esc(im["caption"])}</figcaption></figure>'
+ if s.get('paragraphs'):out+=''.join(f'<p>{fmt(p)}</p>' for p in s['paragraphs'])
  if s.get('table'):
   t=s['table'];out+='<div class="rp-table-wrap"><table class="rp-table"><thead><tr>'+''.join(f'<th scope="col">{esc(x)}</th>' for x in t['headers'])+'</tr></thead><tbody>'+''.join('<tr>'+''.join((f'<th scope="row">{esc(x)}</th>' if i==0 else f'<td>{esc(x)}</td>') for i,x in enumerate(r))+'</tr>' for r in t['rows'])+'</tbody></table></div>'
- if s.get('steps'):out+='<ol class="rp-steps">'+''.join(f'<li>{esc(x)}</li>' for x in s['steps'])+'</ol>'
+ if s.get('steps'):out+='<ol class="rp-steps">'+''.join(f'<li>{step_html(x)}</li>' for x in s['steps'])+'</ol>'
+ if s.get('verification'):
+  check=s['verification'];out+=f'<aside class="rp-note rp-ces-check" aria-label="{esc(check["label"])}"><img src="../assets/{esc(check["src"])}" alt="{esc(check["alt"])}" loading="lazy"><div><strong>{esc(check["label"])}</strong><br>{esc(check["text"])}</div></aside>'
  if s.get('bullets'):out+='<ul class="bullets">'+''.join(f'<li>{esc(x)}</li>' for x in s['bullets'])+'</ul>'
- if s.get('notice'):out+=f'<p class="rp-note">{esc(s["notice"])}</p>'
- if s.get('try'):out+=f'<p class="rp-note"><strong>Quick win:</strong> {esc(s["try"])}</p>'
+ if s.get('notice'):out+=f'<p class="rp-note">{fmt(s["notice"])}</p>'
+ if s.get('example'):out+=f'<p class="rp-note"><strong>Example:</strong> {fmt(s["example"])}</p>'
+ if s.get('try'):out+=f'<p class="rp-note"><strong>Quick win:</strong> {fmt(s["try"])}</p>'
  if s.get('link'):out+=f'<p><a class="rp-btn rp-btn-primary" href="{esc(s["link"]["url"])}">{esc(s["link"]["text"])}<span aria-hidden="true">→</span></a></p>'
  return out+'</div></section>'
 def head(title,d,prefix,extra=''):
@@ -97,11 +130,14 @@ def pdf(path,d,rev):
  def grid(cells,widths=None,fill=True):
   t=Table([cells],colWidths=widths or [W/len(cells)]*len(cells))
   t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('BOX',(0,0),(-1,-1),1.5,ink),('INNERGRID',(0,0),(-1,-1),1.5,ink),('LEFTPADDING',(0,0),(-1,-1),8),('RIGHTPADDING',(0,0),(-1,-1),8),('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),6)]+([('BACKGROUND',(0,0),(-1,-1),sur)] if fill else [])));return t
- def card(c):return ([E(c['label'].upper(),'lab')] if c.get('label') else [])+[E(c['title'],'ct'),E(c['text'])]
+ def card(c,rich=False):return ([E(c['label'].upper(),'lab')] if c.get('label') else [])+[E(c['title'],'ct'),P(inline_markdown(c['text'],'pdf')) if rich else E(c['text'])]
  def flat(t,style):t.setStyle(TableStyle([('LEFTPADDING',(0,0),(-1,-1),0),('RIGHTPADDING',(0,0),(-1,-1),0),('TOPPADDING',(0,0),(-1,-1),0),('BOTTOMPADDING',(0,0),(-1,-1),0)]+style));return t
- def note(text):return flat(Table([[Box(5,ACCENT,dy=4.6,h=11.4),E(text,'note')]],colWidths=[12,W-12]),[('VALIGN',(0,0),(-1,-1),'TOP')])
+ def note(text,rich=False):return flat(Table([[Box(5,ACCENT,dy=4.6,h=11.4),P(inline_markdown(text,'pdf'),'note') if rich else E(text,'note')]],colWidths=[12,W-12]),[('VALIGN',(0,0),(-1,-1),'TOP')])
  def steps(items):
-  t=Table([[[P(f'{i+1:02d}','stepn'),E(x)] for i,x in enumerate(items)]],colWidths=[W/len(items)]*len(items))
+  def step(x):
+   if isinstance(x,str):return E(x)
+   return P(f'{esc(x["before"])}<link href="{esc(x["url"])}" color="{ACCENT_TEXT}"><b>{esc(x["link_text"])}</b></link>{esc(x["after"])}')
+  t=Table([[[P(f'{i+1:02d}','stepn'),step(x)] for i,x in enumerate(items)]],colWidths=[W/len(items)]*len(items))
   return flat(t,[('VALIGN',(0,0),(-1,-1),'TOP'),('LINEABOVE',(0,0),(-1,0),.75,soft),('TOPPADDING',(0,0),(-1,-1),4),('RIGHTPADDING',(0,0),(-1,-1),10)])
  def band(label,text):
   t=Table([[P(up(label),'whiteb'),E(text,'white')]],colWidths=[78,W-78])
@@ -117,11 +153,13 @@ def pdf(path,d,rev):
    hero=Table([[[P(esc(d['title'])+f'<font color="{ACCENT}">.</font>','h1'),gap(5),E(d['subtitle'],'sub')],panel]],colWidths=[W-204,204])
    story+= [flat(hero,[('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(1,0),(1,0),18)]),gap(6)]
   for s in page['sections']:
+   rich=s.get('format')=='markdown'
    story+=[head(s),gap(5)]
-   if s.get('intro'):story+=[E(s['intro'],'intro'),gap(6)]
+   if s.get('intro'):story+=[P(inline_markdown(s['intro'],'pdf'),'intro') if rich else E(s['intro'],'intro'),gap(6)]
    if s.get('table'):
     t=s['table'];rows=[[E(x,'th') for x in t['headers']]]+[[E(r[0].upper(),'lab')]+[E(x) for x in r[1:]] for r in t['rows']]
-    story+=[flat(Table(rows,colWidths=[78,150,150,150]),[('VALIGN',(0,0),(-1,-1),'TOP'),('LINEBELOW',(0,0),(-1,0),1.5,ink),('LINEBELOW',(0,1),(-1,-1),.75,soft),('TOPPADDING',(0,0),(-1,-1),4),('BOTTOMPADDING',(0,0),(-1,-1),5),('RIGHTPADDING',(0,0),(-1,-1),8)]),gap()]
+    col_widths=[78]+[(W-78)/(len(t['headers'])-1)]*(len(t['headers'])-1)
+    story+=[flat(Table(rows,colWidths=col_widths),[('VALIGN',(0,0),(-1,-1),'TOP'),('LINEBELOW',(0,0),(-1,0),1.5,ink),('LINEBELOW',(0,1),(-1,-1),.75,soft),('TOPPADDING',(0,0),(-1,-1),4),('BOTTOMPADDING',(0,0),(-1,-1),5),('RIGHTPADDING',(0,0),(-1,-1),8)]),gap()]
    if s.get('cards'):
     cs=s['cards']
     if all(c['title'].endswith('day') for c in cs):
@@ -135,25 +173,34 @@ def pdf(path,d,rev):
      story+=[flat(Table([[pic,stack]],colWidths=[iw+14,cw]),[('VALIGN',(0,0),(-1,-1),'TOP')]),gap()]
     elif s.get('date'):
      dt=s['date'];tile=[E(dt['label'].upper(),'whiteb'),Paragraph(esc(dt['big']),S('big','Archivo-ExtraBold',23,25,'#ffffff')),E(dt['small'],'whiteb')]
-     inner=grid([card(c) for c in cs],[(W-112)/3]*3)
+     inner=grid([card(c,rich) for c in cs],[(W-112)/3]*3)
      t=Table([[tile,inner]],colWidths=[112,W-112]);t.setStyle(TableStyle([('BACKGROUND',(0,0),(0,0),acc),('VALIGN',(0,0),(0,0),'MIDDLE'),('LEFTPADDING',(0,0),(0,0),10),('LEFTPADDING',(1,0),(1,0),0),('RIGHTPADDING',(1,0),(1,0),0),('TOPPADDING',(1,0),(1,0),0),('BOTTOMPADDING',(1,0),(1,0),0),('BOX',(0,0),(-1,-1),1.5,ink)]))
      story+=[t,gap()]
-    else:story+=[grid([card(c) for c in cs]),gap()]
+    else:story+=[grid([card(c,rich) for c in cs]),gap()]
    if s.get('image') and not s.get('cards'):
     # Standalone screenshots preserve aspect ratio; the web guide opens them at full size.
     im=s['image'];iw=im.get('pdf_width',400)
     with Image.open(ROOT/'content'/im['src']) as source:w0,h0=source.size
     story+=[RLImage(str(ROOT/'content'/im['src']),width=iw,height=iw*h0/w0),gap(3),E(im['caption'],'note'),gap()]
+   if s.get('paragraphs'):story += [P(inline_markdown(p,'pdf'),'body') if rich else E(p) for p in s['paragraphs']]+[gap()]
    if s.get('link'):
     l=s['link'];btn=Table([[P(f'<link href="{esc(l["url"])}" color="#ffffff">{esc(l["text"])}</link>','whiteb')]],rowHeights=[26]);btn.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),acc),('VALIGN',(0,0),(-1,-1),'MIDDLE'),('LEFTPADDING',(0,0),(-1,-1),12),('RIGHTPADDING',(0,0),(-1,-1),12)]))
-    side=E(s['notice'],'note') if s.get('notice') else ''
+    side=(P(inline_markdown(s['notice'],'pdf'),'note') if rich else E(s['notice'],'note')) if s.get('notice') else ''
     story+=[flat(Table([[btn,side]],colWidths=[176,W-176]),[('VALIGN',(0,0),(-1,-1),'MIDDLE'),('LEFTPADDING',(1,0),(1,0),12)]),gap()]
    if s.get('steps'):story+=[steps(s['steps']),gap()]
+   if s.get('verification'):
+    check=s['verification'];logo_path=ROOT/'content'/check['src']
+    with Image.open(logo_path) as source:w0,h0=source.size
+    ih=44;iw=ih*w0/h0;pic=RLImage(str(logo_path),width=iw,height=ih)
+    copy=Table([[pic,[P(esc(check['label']),'ct'),E(check['text'],'note')]]],colWidths=[48,W-48])
+    copy.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),sur),('VALIGN',(0,0),(-1,-1),'MIDDLE'),('LEFTPADDING',(0,0),(-1,-1),8),('RIGHTPADDING',(0,0),(-1,-1),8),('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),5)]))
+    story+=[copy,gap()]
    if s.get('bullets'):
     b=s['bullets'];cols=3;rows=[[[P(f'<font name="Archivo-ExtraBold" color="{ACCENT}">{r*cols+k+1}</font>  '+esc(b[r*cols+k]))] for k in range(cols)] for r in range(len(b)//cols)]
     story+=[flat(Table(rows,colWidths=[W/cols]*cols),[('VALIGN',(0,0),(-1,-1),'TOP'),('LINEABOVE',(0,0),(-1,0),1.5,ink),('LINEBELOW',(0,0),(-1,-1),.75,soft),('TOPPADDING',(0,0),(-1,-1),3),('BOTTOMPADDING',(0,0),(-1,-1),4),('RIGHTPADDING',(0,0),(-1,-1),10)]),gap()]
    if s.get('try'):story+=[band('Quick win',s['try']),gap()]
-   if s.get('notice') and not s.get('link'):story+=[note(s['notice']),gap()]  # a link row carries its notice beside the button
+   if s.get('example'):story+=[note(s['example'],rich),gap()]
+   if s.get('notice') and not s.get('link'):story+=[note(s['notice'],rich),gap()]  # a link row carries its notice beside the button
    story.append(gap(4))
   if i==len(d['pages'])-1:
    items=[flat(Table([[Box(10,'#ffffff',INK),E(c['text'])]],colWidths=[18,(W-40)/2-18]),[('VALIGN',(0,0),(-1,-1),'MIDDLE')]) for c in d['checklist']]
@@ -191,8 +238,10 @@ def generate(out):
  # The shared style sheet ships unchanged from style-guide/, so every personal site gets the same file.
  (out/'assets'/'fonts').mkdir()
  for name in ('rob-personal.css','fonts/archivo.woff2','fonts/archivo-italic.woff2','fonts/OFL.txt'):(out/'assets'/name).write_bytes((ROOT/'style-guide'/name).read_bytes())
- for sec in (x for pg in d['pages'] for x in pg['sections'] if x.get('image')):
-  dst=out/'assets'/sec['image']['src'];dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes((ROOT/'content'/sec['image']['src']).read_bytes())
+ assets=[sec['image']['src'] for pg in d['pages'] for sec in pg['sections'] if sec.get('image')]
+ assets += [sec['verification']['src'] for pg in d['pages'] for sec in pg['sections'] if sec.get('verification')]
+ for src in assets:
+  dst=out/'assets'/src;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes((ROOT/'content'/src).read_bytes())
  (out/'.nojekyll').write_text('')
  (out/'favicon.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#172441"/><path d="M12 16h17l3 5 3-5h17v33H35l-3 5-3-5H12z" fill="#fff"/><path d="M32 23v24" stroke="#205bb6" stroke-width="3"/></svg>')
  im=Image.new('RGB',(64,64),'#172441');draw=ImageDraw.Draw(im);draw.rounded_rectangle((10,14,54,49),4,fill='white');draw.line((32,17,32,49),fill='#205bb6',width=3);im.save(out/'favicon.ico',sizes=[(16,16),(32,32),(64,64)])
