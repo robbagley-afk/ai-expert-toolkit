@@ -56,7 +56,7 @@
             "alt": "ChatGPT home screen with the Chat and Work switch at the top center, Work selected",
             "caption": "From this home screen, select the Customize icon circled in magenta to open plugin settings."
           },
-          "try": "Install the SharePoint plugin. Open a new chat, type @sharepoint to add the plugin to the chat, then type: \"Find five recent documents and give me a one-line summary of each.\""
+          "try": "Install the SharePoint plugin (CES plugins: see page 5). Open a new chat, type @sharepoint to add the plugin to the chat, then type: \"Find five recent documents and give me a one-line summary of each.\""
         }
       ]
     },
@@ -195,7 +195,7 @@
           "id": "find-plugins",
           "kicker": "Find plugins",
           "title": "Open Customize > Plugins",
-          "intro": "In the desktop app, select the **Customize** icon circled on page 1, then choose **Plugins**. Select Public to browse, CES ChatGPT for shared CES tools, or Personal for plugins you created or received.",
+          "intro": "In the desktop app, select the **Customize** icon circled on page 1, then choose **Plugins**. Select Public to browse, CES ChatGPT for shared tools like [AI Token Saver](https://chatgpt.com/plugins/Plugin_823a3d1060588191b23dc99cbb9e82f0), or Personal for plugins you created or received.",
           "image": {
             "src": "img/plugins-settings.jpeg",
             "alt": "ChatGPT Customize screen with Plugins selected, Public selected, a Search plugins field, and CES ChatGPT and Personal tabs.",
@@ -217,7 +217,12 @@
           "steps": [
             "Select CES ChatGPT. Open the plugin or use its + button, then choose Install plugin if prompted. Complete any required app connection.",
             "Start or open a chat in Work. In that chat, type @ and select the installed plugin, or use + > Plugins where shown. Then describe the task.",
-            "For example, select AI Token Saver (ChatGPT Only) and ask: Help me choose a model and effort for this task. In a supported Codex task view, use Sources > Use plugins."
+            {
+              "before": "For example, select ",
+              "link_text": "AI Token Saver (ChatGPT Only)",
+              "url": "https://chatgpt.com/plugins/Plugin_823a3d1060588191b23dc99cbb9e82f0",
+              "after": " and ask: Help me choose a model and effort for this task. In a supported Codex task view, use Sources > Use plugins."
+            }
           ],
           "link": {
             "text": "Open the CES setup guide",
@@ -270,7 +275,7 @@
             },
             {
               "title": "Install one",
-              "text": "Search the Plugins directory before building a tool that already exists."
+              "text": "Search the Plugins directory before building a tool that already exists. Try [AI Token Saver](https://chatgpt.com/plugins/Plugin_823a3d1060588191b23dc99cbb9e82f0)."
             }
           ],
           "steps": [
@@ -279,7 +284,8 @@
             "Test with de-identified examples and refine the instructions.",
             "Share where your workspace permits. Name a maintainer and provide example prompts."
           ],
-          "notice": "Good first skills: meeting notes to action items, policy-template checks or clearer help articles."
+          "notice": "Good first skills: meeting notes to action items, policy-template checks or clearer help articles.",
+          "format": "markdown"
         },
         {
           "id": "habits",
@@ -352,7 +358,8 @@
             "big": "Dec 11",
             "small": "2026",
             "text": "Custom GPT retirement is scheduled for December 11, 2026."
-          }
+          },
+          "format": "markdown"
         },
         {
           "id": "codex",

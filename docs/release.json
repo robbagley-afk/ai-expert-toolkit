@@ -1,9 +1,9 @@
 {
   "reviewed": "2026-10-15",
-  "revision": "1af32d510f58eee8d4e5434251f9d4796552b8931370a88fcd42dce4179c3b0b",
+  "revision": "0cebdb81e1f175eec5f948c44eed2d49cbf1b9d670b74923dd69ea384f52a412",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "ChatGPT-Quick-Start-Guide.pdf": "794fe4374cf28964dc85827e12c671159d5df27e46153451db6f591a4e12739d",
+    "ChatGPT-Quick-Start-Guide.pdf": "e54e4467fe6d9089ddb149c194be3a1bfc5f690d418cb12d863bf2e7217997f1",
     "assets/fonts/OFL.txt": "c3c8402eec0e31dc9a76851235b1c02a0bb821488b2db8e35bcc2ab60ca8fc2b",
     "assets/fonts/archivo-italic.woff2": "3d109f97a71d3d3d04d16e5c4b95be8f89146a55ebbed239b90f5a8c5d4f437a",
     "assets/fonts/archivo.woff2": "8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967",
@@ -16,9 +16,9 @@
     "assets/img/usage-billing.png": "4ec7711ca428226c9da4c9193a7bb70de701e73cc6abc56554af47dcf2e925b8",
     "assets/rob-personal.css": "7191b7cd2d8c0903d170c59a120f3c75dbb819437de3393768872047c3c5165e",
     "assets/site.css": "a015805947fa133d63c66623411f8bc72e542d491060e8738d367fc77f0a609e",
-    "chatgpt-quick-start-guide/index.html": "163e62b94def646672c009ccbf15ec914f37553b3172bf0d8506de916a5dda0f",
+    "chatgpt-quick-start-guide/index.html": "dd9b6910827035ddde5bbd6a23d6c47063eda0b6d901295db82277b5231b0411",
     "favicon.ico": "a5ddcb57e386d9c2d9a208cf348efddf0eac052c2eac0ae0ca2de2a67c267c68",
     "favicon.svg": "19c55402fb933ad06e91d50f46794f420c389d342611a63a3f8b0efb2fed8a8a",
-    "index.html": "b5378a2d72b309ef3022bcf92ef3bb42f8c0c2cb942a1e43ac4509e049809685"
+    "index.html": "536d455776d959e18d8a75deb767523eda35021a1ea9546152b0544172e5aeae"
   }
 }
