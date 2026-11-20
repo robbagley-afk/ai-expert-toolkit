@@ -15,16 +15,14 @@ class BuildTests(unittest.TestCase):
   text='Use **GPT-6.1 Sol** at **Medium** and [the guide](https://example.org/a?x=1&y=2).'
   self.assertEqual(b.inline_markdown(text), 'Use <strong>GPT-6.1 Sol</strong> at <strong>Medium</strong> and <a href="https://example.org/a?x=1&amp;y=2">the guide</a>.')
   self.assertEqual(b.inline_markdown(text, target='pdf'), 'Use <b>GPT-6.1 Sol</b> at <b>Medium</b> and <link href="https://example.org/a?x=1&amp;y=2" color="#174a94">the guide</link>.')
- def test_model_guidance_emphasizes_model_names_and_effort(self):
+ def test_model_guidance_emphasizes_reliability_and_upgrade_tradeoffs(self):
   sec=next(s for p in self.data['pages'] for s in p['sections'] if s['id']=='models')
-  self.assertEqual(sec.get('format'),'markdown')
-  self.assertIn('**GPT-6 Luna**',sec['cards'][0]['text'])
-  self.assertIn('**Low**',sec['cards'][0]['text'])
-  self.assertIn('**GPT-6.1 Sol**',sec['cards'][1]['text'])
-  self.assertIn('**Medium**',sec['cards'][1]['text'])
   rendered=b.section(sec)
-  self.assertIn('<strong>GPT-6 Luna</strong>',rendered)
-  self.assertIn('<strong>GPT-6.1 Sol</strong>',rendered)
+  self.assertIn('<strong>lowest-cost available setting</strong>',rendered)
+  self.assertIn('passes a reliable check',rendered)
+  self.assertIn('<strong>five points per doubling of benchmark cost</strong>',rendered)
+  self.assertIn('guideline for upgrades on the same test',rendered)
+  self.assertIn('Step up when a meaningful check fails',rendered)
  def test_plugin_navigation_analogy_and_example_are_in_guide(self):
   sections={s['id']:s for p in self.data['pages'] for s in p['sections']}
   self.assertIn('Customize',sections['find-plugins']['intro'])

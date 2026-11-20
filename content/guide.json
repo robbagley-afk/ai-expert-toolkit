@@ -93,25 +93,25 @@
         {
           "id": "models",
           "kicker": "Pick a model and effort",
-          "title": "Match the model to the work. Start at low effort.",
+          "title": "Match the model and effort to the task.",
           "cards": [
             {
               "title": "Narrow and repeated",
-              "text": "Try **GPT-6 Luna** at **Low** for sorting, extraction or a task with a clear right answer.",
+              "text": "Start with the **lowest-cost available setting** that passes a reliable check for sorting, extraction or another task with a clear right answer.",
               "label": "Low"
             },
             {
               "title": "Judgment across sources",
-              "text": "Use **GPT-6.1 Sol** at **Low** or **Medium** for reports, reconciling documents and multistep work. Use the lowest effort that passes your check.",
-              "label": "Low or Medium"
+              "text": "For reports, reconciling documents and multistep work, use the current guide’s task-specific pick. Take time and likely retries into account.",
+              "label": "Task-specific"
             },
             {
               "title": "Consequential decisions",
-              "text": "Increase effort when needed and add human review. Keep scope explicit. Consult your campus policy and the current Model Value Map.",
+              "text": "Start with a setting that has demonstrated reliable results for the task and add human review. Follow your campus policy.",
               "label": "Higher, plus review"
             }
           ],
-          "notice": "Raise effort only after a result fails your check. Higher effort takes more time and usage. Menu labels and models vary by account and campus settings.",
+          "notice": "Use **five points per doubling of benchmark cost** as a guideline for upgrades on the same test. If both options meet the task’s needs and the gain is close to the cutoff, favor the cheaper, faster setting. Step up when a meaningful check fails.",
           "link": {
             "text": "Open the AI Model Value Map",
             "url": "https://robbagley-afk.github.io/model-value-map/"
